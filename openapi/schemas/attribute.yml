@@ -1,0 +1,232 @@
+components:
+  schemas:
+    # ==================== REQUEST SCHEMAS ====================
+    CreateAttributeRequest:
+      type: object
+      required:
+        - name
+        - slug
+        - type
+        - enabled
+      properties:
+        id:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          description: Optional client-generated UUID
+        name:
+          type: string
+          example: "Color"
+          minLength: 2
+          maxLength: 100
+        slug:
+          type: string
+          example: "color"
+          minLength: 2
+          maxLength: 50
+          pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          description: URL-friendly identifier
+        type:
+          type: string
+          enum: [single, multiple, range, boolean, text]
+          example: "single"
+          description: |
+            Attribute type:
+            - single: One option from list (e.g., color)
+            - multiple: Multiple options (e.g., connectivity: WiFi, Bluetooth)
+            - range: Numeric value with optional unit (e.g., RAM: 8 GB)
+            - boolean: Yes/No value (e.g., waterproof)
+            - text: Free text (e.g., custom engraving)
+        unit:
+          type: string
+          example: "GB"
+          maxLength: 20
+          description: Unit for range type (GB, kg, mm, etc.)
+        enabled:
+          type: boolean
+          example: true
+        options:
+          type: array
+          description: Options for single/multiple types
+          items:
+            $ref: "#/components/schemas/AttributeOptionInput"
+
+    UpdateAttributeRequest:
+      type: object
+      required:
+        - id
+        - name
+        - slug
+        - type
+        - enabled
+        - version
+      properties:
+        id:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          example: "Color"
+          minLength: 2
+          maxLength: 100
+        slug:
+          type: string
+          example: "color"
+          minLength: 2
+          maxLength: 50
+          pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        type:
+          type: string
+          enum: [single, multiple, range, boolean, text]
+          example: "single"
+        unit:
+          type: string
+          example: "GB"
+          maxLength: 20
+        enabled:
+          type: boolean
+          example: true
+        version:
+          type: integer
+          example: 1
+          minimum: 1
+          description: Optimistic locking version
+        options:
+          type: array
+          items:
+            $ref: "#/components/schemas/AttributeOptionInput"
+
+    # ==================== RESPONSE SCHEMAS ====================
+    AttributeResponse:
+      type: object
+      required:
+        - id
+        - version
+        - name
+        - slug
+        - type
+        - enabled
+        - createdAt
+        - modifiedAt
+      properties:
+        id:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        version:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Color"
+        slug:
+          type: string
+          example: "color"
+        type:
+          type: string
+          enum: [single, multiple, range, boolean, text]
+          example: "single"
+        unit:
+          type: string
+          example: "GB"
+        enabled:
+          type: boolean
+          example: true
+        options:
+          type: array
+          items:
+            $ref: "#/components/schemas/AttributeOption"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        modifiedAt:
+          type: string
+          format: date-time
+          example: "2023-01-02T00:00:00Z"
+
+    AttributeListResponse:
+      type: object
+      required:
+        - items
+        - page
+        - size
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/AttributeResponse"
+        page:
+          type: integer
+          example: 1
+          description: Current page number
+        size:
+          type: integer
+          example: 20
+          description: Number of items per page
+        total:
+          type: integer
+          example: 100
+          description: Total number of items
+
+    # ==================== EMBEDDED SCHEMAS ====================
+    AttributeOptionInput:
+      type: object
+      description: Input for creating/updating an attribute option
+      required:
+        - name
+        - slug
+        - enabled
+      properties:
+        name:
+          type: string
+          example: "Red"
+          minLength: 1
+          maxLength: 100
+        slug:
+          type: string
+          example: "red"
+          minLength: 1
+          maxLength: 50
+          pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+        colorCode:
+          type: string
+          example: "#FF0000"
+          pattern: "^#[0-9A-Fa-f]{6}$"
+          description: Hex color code for color attributes
+        sortOrder:
+          type: integer
+          example: 1
+          minimum: 0
+          maximum: 10000
+        enabled:
+          type: boolean
+          example: true
+
+    AttributeOption:
+      type: object
+      description: Embedded attribute option
+      required:
+        - name
+        - slug
+        - sortOrder
+        - enabled
+      properties:
+        name:
+          type: string
+          example: "Red"
+        slug:
+          type: string
+          example: "red"
+        colorCode:
+          type: string
+          example: "#FF0000"
+        sortOrder:
+          type: integer
+          example: 1
+        enabled:
+          type: boolean
+          example: true

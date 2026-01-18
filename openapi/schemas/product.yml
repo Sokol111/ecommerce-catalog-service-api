@@ -1,0 +1,265 @@
+components:
+  schemas:
+    # ==================== REQUEST SCHEMAS ====================
+    CreateProductRequest:
+      type: object
+      required:
+        - name
+        - enabled
+        - price
+        - quantity
+      properties:
+        id:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          description: Optional client-generated UUID
+        name:
+          type: string
+          example: "iPhone 15 Pro"
+          minLength: 2
+          maxLength: 100
+        description:
+          type: string
+          example: "Latest iPhone with A17 Pro chip"
+          maxLength: 2000
+        price:
+          type: number
+          example: 999.99
+          minimum: 0
+          maximum: 100000000
+        quantity:
+          type: integer
+          example: 100
+          minimum: 0
+          maximum: 100000000
+        imageId:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          description: Reference to image in Image Service
+        categoryId:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          description: Category this product belongs to
+        enabled:
+          type: boolean
+          example: true
+        attributes:
+          type: array
+          description: List of attribute values for this product
+          items:
+            $ref: "#/components/schemas/ProductAttributeInput"
+
+    UpdateProductRequest:
+      type: object
+      required:
+        - id
+        - name
+        - enabled
+        - price
+        - quantity
+        - version
+      properties:
+        id:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          example: "iPhone 15 Pro"
+          minLength: 2
+          maxLength: 100
+        description:
+          type: string
+          example: "Latest iPhone with A17 Pro chip"
+          maxLength: 2000
+        price:
+          type: number
+          example: 999.99
+          minimum: 0
+          maximum: 100000000
+        quantity:
+          type: integer
+          example: 100
+          minimum: 0
+          maximum: 100000000
+        imageId:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        categoryId:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        enabled:
+          type: boolean
+          example: true
+        version:
+          type: integer
+          example: 1
+          minimum: 1
+          description: Optimistic locking version
+        attributes:
+          type: array
+          description: List of attribute values for this product
+          items:
+            $ref: "#/components/schemas/ProductAttributeInput"
+
+    # ==================== RESPONSE SCHEMAS ====================
+    ProductResponse:
+      type: object
+      required:
+        - id
+        - version
+        - name
+        - price
+        - quantity
+        - enabled
+        - createdAt
+        - modifiedAt
+      properties:
+        id:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        version:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "iPhone 15 Pro"
+        description:
+          type: string
+          example: "Latest iPhone with A17 Pro chip"
+        price:
+          type: number
+          example: 999.99
+        quantity:
+          type: integer
+          example: 100
+        imageId:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        categoryId:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        enabled:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        modifiedAt:
+          type: string
+          format: date-time
+          example: "2023-01-02T00:00:00Z"
+        attributes:
+          type: array
+          description: List of attribute values for this product
+          items:
+            $ref: "#/components/schemas/ProductAttribute"
+
+    ProductListResponse:
+      type: object
+      required:
+        - items
+        - page
+        - size
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProductResponse"
+        page:
+          type: integer
+          example: 1
+          description: Current page number
+        size:
+          type: integer
+          example: 20
+          description: Number of items per page
+        total:
+          type: integer
+          example: 100
+          description: Total number of items
+
+    # ==================== EMBEDDED SCHEMAS ====================
+    ProductAttributeInput:
+      type: object
+      description: Input for assigning an attribute value to a product
+      required:
+        - attributeId
+      properties:
+        attributeId:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          description: Reference to the attribute definition
+        optionSlugValue:
+          type: string
+          example: "red"
+          maxLength: 50
+          description: Slug of the selected option (for single type)
+        optionSlugValues:
+          type: array
+          description: Slugs of selected options (for multiple type)
+          items:
+            type: string
+            maxLength: 50
+          example: ["wifi", "bluetooth", "nfc"]
+        numericValue:
+          type: number
+          example: 128
+          description: Numeric value (for range type - e.g., RAM, storage)
+        textValue:
+          type: string
+          example: "Custom engraving text"
+          maxLength: 2000
+          description: Free text value (for text type)
+        booleanValue:
+          type: boolean
+          example: true
+          description: Boolean value (for boolean type)
+
+    ProductAttribute:
+      type: object
+      description: Embedded product attribute with value
+      required:
+        - attributeId
+      properties:
+        attributeId:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          description: Reference to the attribute definition
+        optionSlugValue:
+          type: string
+          example: "red"
+          description: Slug of the selected option (for single type)
+        optionSlugValues:
+          type: array
+          description: Slugs of selected options (for multiple type)
+          items:
+            type: string
+          example: ["wifi", "bluetooth", "nfc"]
+        numericValue:
+          type: number
+          example: 128
+          description: Numeric value (for range type)
+        textValue:
+          type: string
+          example: "Custom engraving text"
+          description: Free text value (for text type)
+        booleanValue:
+          type: boolean
+          example: true
+          description: Boolean value (for boolean type)

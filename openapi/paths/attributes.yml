@@ -1,0 +1,243 @@
+paths:
+  /v1/attribute/create:
+    post:
+      summary: Create a new attribute
+      operationId: createAttribute
+      tags:
+        - Attributes
+      security:
+        - BearerAuth: [attributes:write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/attribute.yml#/components/schemas/CreateAttributeRequest"
+      responses:
+        "200":
+          description: Attribute created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/attribute.yml#/components/schemas/AttributeResponse"
+        "400":
+          description: Validation error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "409":
+          description: Attribute with this slug already exists
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+
+  /v1/attribute/update:
+    put:
+      summary: Update an existing attribute
+      operationId: updateAttribute
+      tags:
+        - Attributes
+      security:
+        - BearerAuth: [attributes:write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/attribute.yml#/components/schemas/UpdateAttributeRequest"
+      responses:
+        "200":
+          description: Attribute updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/attribute.yml#/components/schemas/AttributeResponse"
+        "400":
+          description: Validation error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "404":
+          description: Attribute not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "409":
+          description: Attribute with this slug already exists
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "412":
+          description: Version mismatch (optimistic locking)
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+
+  /v1/attribute/get/{id}:
+    get:
+      summary: Get an attribute by ID
+      operationId: getAttributeById
+      tags:
+        - Attributes
+      security:
+        - BearerAuth: [attributes:read]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Attribute UUID
+      responses:
+        "200":
+          description: Attribute retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/attribute.yml#/components/schemas/AttributeResponse"
+        "404":
+          description: Attribute not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+
+  /v1/attribute/list:
+    get:
+      summary: Get a paginated list of attributes
+      operationId: getAttributeList
+      tags:
+        - Attributes
+      security:
+        - BearerAuth: [attributes:read]
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            example: 1
+          description: Page number (1-based)
+        - name: size
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            example: 20
+          description: Number of items per page (max 100)
+        - name: enabled
+          in: query
+          required: false
+          schema:
+            type: boolean
+            example: true
+          description: Filter by enabled status
+        - name: type
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [single, multiple, range, boolean, text]
+          description: Filter by attribute type
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [name, slug, createdAt, modifiedAt]
+            example: name
+          description: Field to sort by
+        - name: order
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: asc
+            example: asc
+          description: Sort order
+      responses:
+        "200":
+          description: List of attributes retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/attribute.yml#/components/schemas/AttributeListResponse"
+        "400":
+          description: Validation error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+
+  /v1/attribute/delete/{id}:
+    delete:
+      summary: Delete an attribute by ID
+      operationId: deleteAttribute
+      tags:
+        - Attributes
+      security:
+        - BearerAuth: [attributes:delete]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Attribute UUID
+      responses:
+        "204":
+          description: Attribute deleted successfully
+        "404":
+          description: Attribute not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "409":
+          description: Attribute is in use and cannot be deleted
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"

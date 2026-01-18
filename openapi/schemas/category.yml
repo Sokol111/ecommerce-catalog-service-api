@@ -1,0 +1,194 @@
+components:
+  schemas:
+    # ==================== REQUEST SCHEMAS ====================
+    CreateCategoryRequest:
+      type: object
+      required:
+        - name
+        - enabled
+      properties:
+        id:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+          description: Optional client-generated UUID
+        name:
+          type: string
+          example: "Smartphones"
+          minLength: 2
+          maxLength: 100
+        enabled:
+          type: boolean
+          example: true
+        attributes:
+          type: array
+          description: List of attributes to assign to this category
+          items:
+            $ref: "#/components/schemas/CategoryAttributeInput"
+
+    UpdateCategoryRequest:
+      type: object
+      required:
+        - id
+        - name
+        - enabled
+        - version
+      properties:
+        id:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        name:
+          type: string
+          example: "Smartphones"
+          minLength: 2
+          maxLength: 100
+        enabled:
+          type: boolean
+          example: true
+        version:
+          type: integer
+          example: 1
+          minimum: 1
+          description: Optimistic locking version
+        attributes:
+          type: array
+          description: List of attributes assigned to this category
+          items:
+            $ref: "#/components/schemas/CategoryAttributeInput"
+
+    # ==================== RESPONSE SCHEMAS ====================
+    CategoryResponse:
+      type: object
+      required:
+        - id
+        - version
+        - name
+        - enabled
+        - createdAt
+        - modifiedAt
+      properties:
+        id:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        version:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Smartphones"
+        enabled:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+          example: "2023-01-01T00:00:00Z"
+        modifiedAt:
+          type: string
+          format: date-time
+          example: "2023-01-02T00:00:00Z"
+        attributes:
+          type: array
+          description: List of attributes assigned to this category
+          items:
+            $ref: "#/components/schemas/CategoryAttribute"
+
+    CategoryListResponse:
+      type: object
+      required:
+        - items
+        - page
+        - size
+        - total
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/CategoryResponse"
+        page:
+          type: integer
+          example: 1
+          description: Current page number
+        size:
+          type: integer
+          example: 20
+          description: Number of items per page
+        total:
+          type: integer
+          example: 100
+          description: Total number of items
+
+    # ==================== EMBEDDED SCHEMAS ====================
+    CategoryAttributeInput:
+      type: object
+      description: Input for assigning an attribute to a category
+      required:
+        - attributeId
+        - role
+        - filterable
+        - searchable
+      properties:
+        attributeId:
+          type: string
+          format: uuid
+          pattern: "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$"
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        role:
+          type: string
+          enum: [variant, specification]
+          example: "specification"
+          description: |
+            How this attribute is used in this category:
+            - variant: Creates product variants (color, size) - buyer can choose
+            - specification: Describes the product (processor, screen) - shown in specs
+        required:
+          type: boolean
+          example: false
+          description: Whether products must have this attribute
+        sortOrder:
+          type: integer
+          example: 1
+          minimum: 0
+          maximum: 10000
+        filterable:
+          type: boolean
+          example: true
+          description: Whether this attribute can be used as a filter
+        searchable:
+          type: boolean
+          example: false
+          description: Whether this attribute value is included in search
+
+    CategoryAttribute:
+      type: object
+      description: Embedded category attribute
+      required:
+        - attributeId
+        - role
+        - required
+        - sortOrder
+        - filterable
+        - searchable
+      properties:
+        attributeId:
+          type: string
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        role:
+          type: string
+          enum: [variant, specification]
+          example: "specification"
+        required:
+          type: boolean
+          example: false
+        sortOrder:
+          type: integer
+          example: 1
+        filterable:
+          type: boolean
+          example: true
+        searchable:
+          type: boolean
+          example: false

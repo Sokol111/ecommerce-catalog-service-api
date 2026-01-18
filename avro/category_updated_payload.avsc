@@ -1,0 +1,94 @@
+{
+  "type": "record",
+  "name": "CategoryUpdatedPayload",
+  "namespace": "com.ecommerce.events.catalog",
+  "doc": "Business data for category update event",
+  "fields": [
+    {
+      "name": "category_id",
+      "type": "string",
+      "doc": "Unique category identifier (UUID)"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "doc": "Category name"
+    },
+    {
+      "name": "enabled",
+      "type": "boolean",
+      "doc": "Whether the category is enabled"
+    },
+    {
+      "name": "attributes",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "CategoryAttribute",
+          "doc": "Attribute assignment to a category (category-specific settings)",
+          "fields": [
+            {
+              "name": "attribute_id",
+              "type": "string",
+              "doc": "Reference to the attribute definition (UUID)"
+            },
+            {
+              "name": "role",
+              "type": {
+                "type": "enum",
+                "name": "AttributeRole",
+                "symbols": ["variant", "specification"],
+                "doc": "How an attribute is used in a category"
+              },
+              "doc": "Role of the attribute (variant creates product variants, specification describes the product)"
+            },
+            {
+              "name": "required",
+              "type": "boolean",
+              "doc": "Whether the attribute is required for products in this category"
+            },
+            {
+              "name": "sort_order",
+              "type": "int",
+              "doc": "Sort order for display"
+            },
+            {
+              "name": "filterable",
+              "type": "boolean",
+              "doc": "Whether the attribute is filterable for this category"
+            },
+            {
+              "name": "searchable",
+              "type": "boolean",
+              "doc": "Whether the attribute is searchable for this category"
+            }
+          ]
+        }
+      },
+      "doc": "List of attributes assigned to this category",
+      "default": []
+    },
+    {
+      "name": "version",
+      "type": "int",
+      "doc": "Entity version for optimistic locking"
+    },
+    {
+      "name": "created_at",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Category creation timestamp"
+    },
+    {
+      "name": "modified_at",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Category last modification timestamp"
+    }
+  ]
+}

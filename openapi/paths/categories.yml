@@ -1,0 +1,186 @@
+paths:
+  /v1/category/create:
+    post:
+      summary: Create a new category
+      operationId: createCategory
+      tags:
+        - Categories
+      security:
+        - BearerAuth: [categories:write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/category.yml#/components/schemas/CreateCategoryRequest"
+      responses:
+        "200":
+          description: Category created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/category.yml#/components/schemas/CategoryResponse"
+        "400":
+          description: Validation error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+
+  /v1/category/update:
+    put:
+      summary: Update an existing category
+      operationId: updateCategory
+      tags:
+        - Categories
+      security:
+        - BearerAuth: [categories:write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "../schemas/category.yml#/components/schemas/UpdateCategoryRequest"
+      responses:
+        "200":
+          description: Category updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/category.yml#/components/schemas/CategoryResponse"
+        "400":
+          description: Validation error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "404":
+          description: Category not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "412":
+          description: Version mismatch (optimistic locking)
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+
+  /v1/category/get/{id}:
+    get:
+      summary: Get a category by ID
+      operationId: getCategoryById
+      tags:
+        - Categories
+      security:
+        - BearerAuth: [categories:read]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Category UUID
+      responses:
+        "200":
+          description: Category retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/category.yml#/components/schemas/CategoryResponse"
+        "404":
+          description: Category not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+
+  /v1/category/list:
+    get:
+      summary: Get a paginated list of categories
+      operationId: getCategoryList
+      tags:
+        - Categories
+      security:
+        - BearerAuth: [categories:read]
+      parameters:
+        - name: page
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            example: 1
+          description: Page number (1-based)
+        - name: size
+          in: query
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            example: 20
+          description: Number of items per page (max 100)
+        - name: enabled
+          in: query
+          required: false
+          schema:
+            type: boolean
+            example: true
+          description: Filter by enabled status
+        - name: sort
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [name, createdAt, modifiedAt]
+            example: createdAt
+          description: Field to sort by
+        - name: order
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+            example: desc
+          description: Sort order
+      responses:
+        "200":
+          description: List of categories retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "../schemas/category.yml#/components/schemas/CategoryListResponse"
+        "400":
+          description: Validation error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"

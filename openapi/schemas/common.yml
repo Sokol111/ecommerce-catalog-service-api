@@ -1,0 +1,41 @@
+components:
+  schemas:
+    Problem:
+      type: object
+      description: RFC7807 Problem Details
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          example: "https://api.example.com/problems/validation-error"
+        title:
+          type: string
+          example: "Validation Error"
+        status:
+          type: integer
+          example: 400
+        detail:
+          type: string
+          example: "One or more fields failed validation"
+        instance:
+          type: string
+          format: uri
+          example: "/v1/product/create"
+        traceId:
+          type: string
+          example: "abc123def456"
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+                example: "name"
+              message:
+                type: string
+                example: "Name is required"

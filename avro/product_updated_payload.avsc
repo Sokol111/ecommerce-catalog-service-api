@@ -1,0 +1,125 @@
+{
+  "type": "record",
+  "name": "ProductUpdatedPayload",
+  "namespace": "com.ecommerce.events.catalog",
+  "doc": "Business data for product update event",
+  "fields": [
+    {
+      "name": "product_id",
+      "type": "string",
+      "doc": "Unique product identifier (UUID)"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "doc": "Product name"
+    },
+    {
+      "name": "description",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Optional product description"
+    },
+    {
+      "name": "price",
+      "type": "float",
+      "doc": "Product price"
+    },
+    {
+      "name": "quantity",
+      "type": "int",
+      "doc": "Available quantity"
+    },
+    {
+      "name": "image_id",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Optional image identifier"
+    },
+    {
+      "name": "category_id",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Optional category identifier (UUID)"
+    },
+    {
+      "name": "enabled",
+      "type": "boolean",
+      "doc": "Whether the product is enabled"
+    },
+    {
+      "name": "version",
+      "type": "int",
+      "doc": "Entity version for optimistic locking"
+    },
+    {
+      "name": "created_at",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Product creation timestamp"
+    },
+    {
+      "name": "modified_at",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Product last modification timestamp"
+    },
+    {
+      "name": "attributes",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "ProductAttribute",
+            "doc": "Product attribute with value",
+            "fields": [
+              {
+                "name": "attribute_id",
+                "type": "string",
+                "doc": "Reference to the attribute definition (UUID)"
+              },
+              {
+                "name": "option_slug_value",
+                "type": ["null", "string"],
+                "default": null,
+                "doc": "Slug of selected option (for single type)"
+              },
+              {
+                "name": "option_slug_values",
+                "type": ["null", {"type": "array", "items": "string"}],
+                "default": null,
+                "doc": "Slugs of selected options (for multiple type)"
+              },
+              {
+                "name": "numeric_value",
+                "type": ["null", "float"],
+                "default": null,
+                "doc": "Numeric value (for range type)"
+              },
+              {
+                "name": "text_value",
+                "type": ["null", "string"],
+                "default": null,
+                "doc": "Free text value (for text type)"
+              },
+              {
+                "name": "boolean_value",
+                "type": ["null", "boolean"],
+                "default": null,
+                "doc": "Boolean value (for boolean type)"
+              }
+            ]
+          }
+        }
+      ],
+      "default": null,
+      "doc": "List of attribute values for this product"
+    }
+  ]
+}

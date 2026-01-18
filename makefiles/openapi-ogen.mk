@@ -47,7 +47,7 @@ _openapi-create-dir:
 .PHONY: _openapi-gen
 _openapi-gen:
 	@printf "$(COLOR_BLUE)→ Generating Go code with ogen...$(COLOR_RESET)\n"
-	@$(OGEN) -target $(API_DIR) -package $(PACKAGE) -clean $(OPENAPI_FILE)
+	@$(OGEN) -target $(API_DIR) -package $(PACKAGE) -clean -config ogen.yml $(OPENAPI_FILE)
 
 .PHONY: _openapi-gen-embed
 _openapi-gen-embed:

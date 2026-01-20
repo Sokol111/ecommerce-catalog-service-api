@@ -96,8 +96,8 @@
               },
               {
                 "name": "attribute_type",
-                "type": "com.ecommerce.events.catalog.AttributeType",
-                "doc": "Attribute type for rendering"
+                "type": "string",
+                "doc": "Attribute type for rendering (single, multiple, range, boolean, text)"
               },
               {
                 "name": "attribute_unit",
@@ -107,8 +107,8 @@
               },
               {
                 "name": "role",
-                "type": "com.ecommerce.events.catalog.AttributeRole",
-                "doc": "How attribute is used in category"
+                "type": "string",
+                "doc": "How attribute is used in category (variant, specification)"
               },
               {
                 "name": "sort_order",

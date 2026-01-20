@@ -96,12 +96,8 @@
               },
               {
                 "name": "attribute_type",
-                "type": {
-                  "type": "enum",
-                  "name": "AttributeType",
-                  "symbols": ["single", "multiple", "range", "boolean", "text"]
-                },
-                "doc": "Attribute type for rendering"
+                "type": "string",
+                "doc": "Attribute type for rendering (single, multiple, range, boolean, text)"
               },
               {
                 "name": "attribute_unit",
@@ -111,12 +107,8 @@
               },
               {
                 "name": "role",
-                "type": {
-                  "type": "enum",
-                  "name": "AttributeRole",
-                  "symbols": ["variant", "specification"]
-                },
-                "doc": "How attribute is used in category"
+                "type": "string",
+                "doc": "How attribute is used in category (variant, specification)"
               },
               {
                 "name": "sort_order",

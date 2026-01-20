@@ -90,6 +90,32 @@
                 "doc": "Attribute slug for filtering"
               },
               {
+                "name": "attribute_name",
+                "type": "string",
+                "doc": "Display name of the attribute"
+              },
+              {
+                "name": "attribute_type",
+                "type": "com.ecommerce.events.catalog.AttributeType",
+                "doc": "Attribute type for rendering"
+              },
+              {
+                "name": "attribute_unit",
+                "type": ["null", "string"],
+                "default": null,
+                "doc": "Unit for range type attributes (GB, kg, mm)"
+              },
+              {
+                "name": "role",
+                "type": "com.ecommerce.events.catalog.AttributeRole",
+                "doc": "How attribute is used in category"
+              },
+              {
+                "name": "sort_order",
+                "type": "int",
+                "doc": "Display order of the attribute in category"
+              },
+              {
                 "name": "option_slug_value",
                 "type": ["null", "string"],
                 "default": null,
@@ -100,6 +126,24 @@
                 "type": ["null", {"type": "array", "items": "string"}],
                 "default": null,
                 "doc": "Slugs of selected options (for multiple type)"
+              },
+              {
+                "name": "option_name",
+                "type": ["null", "string"],
+                "default": null,
+                "doc": "Display name of selected option (for single type)"
+              },
+              {
+                "name": "option_names",
+                "type": ["null", {"type": "array", "items": "string"}],
+                "default": null,
+                "doc": "Display names of selected options (for multiple type)"
+              },
+              {
+                "name": "option_color_code",
+                "type": ["null", "string"],
+                "default": null,
+                "doc": "Hex color code for color attributes"
               },
               {
                 "name": "numeric_value",

@@ -179,7 +179,6 @@ components:
       required:
         - name
         - slug
-        - enabled
       properties:
         name:
           type: string
@@ -202,9 +201,6 @@ components:
           example: 1
           minimum: 0
           maximum: 10000
-        enabled:
-          type: boolean
-          example: true
 
     AttributeOption:
       type: object
@@ -213,7 +209,6 @@ components:
         - name
         - slug
         - sortOrder
-        - enabled
       properties:
         name:
           type: string
@@ -227,6 +222,3 @@ components:
         sortOrder:
           type: integer
           example: 1
-        enabled:
-          type: boolean
-          example: true

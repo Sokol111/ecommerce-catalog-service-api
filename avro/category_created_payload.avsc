@@ -88,11 +88,6 @@
                       "name": "sort_order",
                       "type": "int",
                       "doc": "Sort order for display"
-                    },
-                    {
-                      "name": "enabled",
-                      "type": "boolean",
-                      "doc": "Whether the option is enabled"
                     }
                   ]
                 }

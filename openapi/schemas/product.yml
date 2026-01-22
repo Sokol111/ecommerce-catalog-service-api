@@ -53,7 +53,7 @@ components:
           type: array
           description: List of attribute values for this product
           items:
-            $ref: "#/components/schemas/ProductAttributeInput"
+            $ref: "#/components/schemas/AttributeValueInput"
 
     UpdateProductRequest:
       type: object
@@ -111,7 +111,7 @@ components:
           type: array
           description: List of attribute values for this product
           items:
-            $ref: "#/components/schemas/ProductAttributeInput"
+            $ref: "#/components/schemas/AttributeValueInput"
 
     # ==================== RESPONSE SCHEMAS ====================
     ProductResponse:
@@ -165,7 +165,7 @@ components:
           type: array
           description: List of attribute values for this product
           items:
-            $ref: "#/components/schemas/ProductAttribute"
+            $ref: "#/components/schemas/AttributeValue"
 
     ProductListResponse:
       type: object
@@ -193,7 +193,7 @@ components:
           description: Total number of items
 
     # ==================== EMBEDDED SCHEMAS ====================
-    ProductAttributeInput:
+    AttributeValueInput:
       type: object
       description: Input for assigning an attribute value to a product
       required:
@@ -231,7 +231,7 @@ components:
           example: true
           description: Boolean value (for boolean type)
 
-    ProductAttribute:
+    AttributeValue:
       type: object
       description: Embedded product attribute with value
       required:

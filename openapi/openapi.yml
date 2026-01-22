@@ -96,10 +96,10 @@ components:
       $ref: "./schemas/product.yml#/components/schemas/ProductResponse"
     ProductListResponse:
       $ref: "./schemas/product.yml#/components/schemas/ProductListResponse"
-    ProductAttribute:
-      $ref: "./schemas/product.yml#/components/schemas/ProductAttribute"
-    ProductAttributeInput:
-      $ref: "./schemas/product.yml#/components/schemas/ProductAttributeInput"
+    AttributeValue:
+      $ref: "./schemas/product.yml#/components/schemas/AttributeValue"
+    AttributeValueInput:
+      $ref: "./schemas/product.yml#/components/schemas/AttributeValueInput"
     CreateProductRequest:
       $ref: "./schemas/product.yml#/components/schemas/CreateProductRequest"
     UpdateProductRequest:

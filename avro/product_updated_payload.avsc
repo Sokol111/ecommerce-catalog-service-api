@@ -76,8 +76,8 @@
           "type": "array",
           "items": {
             "type": "record",
-            "name": "ProductAttribute",
-            "doc": "Product attribute reference with value. Only immutable fields (IDs, slugs) and product-specific values are included. Mutable display data should be joined from master data tables.",
+            "name": "AttributeValue",
+            "doc": "Attribute value assigned to a product. Only immutable fields (IDs, slugs) and product-specific values are included. Mutable display data should be joined from master data tables.",
             "fields": [
               {
                 "name": "attribute_id",

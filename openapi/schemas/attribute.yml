@@ -57,8 +57,6 @@ components:
       required:
         - id
         - name
-        - slug
-        - type
         - enabled
         - version
       properties:
@@ -72,16 +70,6 @@ components:
           example: "Color"
           minLength: 2
           maxLength: 100
-        slug:
-          type: string
-          example: "color"
-          minLength: 2
-          maxLength: 50
-          pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
-        type:
-          type: string
-          enum: [single, multiple, range, boolean, text]
-          example: "single"
         unit:
           type: string
           example: "GB"
@@ -96,6 +84,11 @@ components:
           description: Optimistic locking version
         options:
           type: array
+          description: |
+            Options for single/multiple types.
+            - To add option: include new option with slug
+            - To update option: include existing option with same slug
+            - To remove option: omit option from array (only if not used by products)
           items:
             $ref: "#/components/schemas/AttributeOptionInput"
 
@@ -175,7 +168,10 @@ components:
     # ==================== EMBEDDED SCHEMAS ====================
     AttributeOptionInput:
       type: object
-      description: Input for creating/updating an attribute option
+      description: |
+        Input for creating/updating an attribute option.
+        - slug is immutable: set once during creation, used as identifier for updates
+        - To update an option, use the same slug with new name/colorCode/sortOrder
       required:
         - name
         - slug
@@ -191,6 +187,9 @@ components:
           minLength: 1
           maxLength: 50
           pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          description: |
+            URL-friendly identifier. Immutable after creation.
+            Used as identifier for updates.
         colorCode:
           type: string
           example: "#FF0000"

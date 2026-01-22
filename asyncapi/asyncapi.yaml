@@ -1,7 +1,7 @@
 asyncapi: 3.0.0
 info:
   title: Catalog Messaging API
-  version: 1.0.1
+  version: 1.0.2
 
 channels:
   catalog.product.events:
@@ -15,3 +15,8 @@ channels:
     messages:
       CategoryCreated: {}
       CategoryUpdated: {}
+
+  catalog.attribute.events:
+    description: Attribute lifecycle events
+    messages:
+      AttributeUpdated: {}

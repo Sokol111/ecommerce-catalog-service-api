@@ -2,7 +2,7 @@
   "type": "record",
   "name": "CategoryCreatedPayload",
   "namespace": "com.ecommerce.events.catalog",
-  "doc": "Business data for category creation event",
+  "doc": "Business data for category creation event. Contains only immutable references and category-specific settings. Mutable attribute data should be fetched from master data tables.",
   "fields": [
     {
       "name": "category_id",
@@ -26,7 +26,7 @@
         "items": {
           "type": "record",
           "name": "CategoryAttribute",
-          "doc": "Enriched attribute assignment to a category with full attribute data",
+          "doc": "Category attribute assignment with category-specific settings. Only immutable references (IDs, slugs) and category-specific configuration are included.",
           "fields": [
             {
               "name": "attribute_id",
@@ -34,66 +34,9 @@
               "doc": "Reference to the attribute definition (UUID)"
             },
             {
-              "name": "attribute_name",
-              "type": "string",
-              "doc": "Attribute display name"
-            },
-            {
               "name": "attribute_slug",
               "type": "string",
-              "doc": "Attribute URL-friendly identifier"
-            },
-            {
-              "name": "attribute_type",
-              "type": {
-                "type": "enum",
-                "name": "AttributeType",
-                "symbols": ["single", "multiple", "range", "boolean", "text"],
-                "doc": "The type of attribute values"
-              },
-              "doc": "Type of the attribute (single, multiple, range, boolean, text)"
-            },
-            {
-              "name": "attribute_unit",
-              "type": ["null", "string"],
-              "default": null,
-              "doc": "Unit of measurement for the attribute (e.g., kg, cm)"
-            },
-            {
-              "name": "attribute_options",
-              "type": {
-                "type": "array",
-                "items": {
-                  "type": "record",
-                  "name": "AttributeOption",
-                  "doc": "Option for single/multiple type attributes",
-                  "fields": [
-                    {
-                      "name": "name",
-                      "type": "string",
-                      "doc": "Option display name"
-                    },
-                    {
-                      "name": "slug",
-                      "type": "string",
-                      "doc": "Option URL-friendly identifier"
-                    },
-                    {
-                      "name": "color_code",
-                      "type": ["null", "string"],
-                      "default": null,
-                      "doc": "Hex color code for color options"
-                    },
-                    {
-                      "name": "sort_order",
-                      "type": "int",
-                      "doc": "Sort order for display"
-                    }
-                  ]
-                }
-              },
-              "doc": "Available options for this attribute",
-              "default": []
+              "doc": "Attribute URL-friendly identifier (immutable)"
             },
             {
               "name": "role",
@@ -113,7 +56,7 @@
             {
               "name": "sort_order",
               "type": "int",
-              "doc": "Sort order for display"
+              "doc": "Sort order for display in this category"
             },
             {
               "name": "filterable",
@@ -128,7 +71,7 @@
           ]
         }
       },
-      "doc": "List of enriched attributes assigned to this category",
+      "doc": "List of attribute assignments for this category",
       "default": []
     },
     {

@@ -1,0 +1,93 @@
+{
+  "type": "record",
+  "name": "AttributeUpdatedPayload",
+  "namespace": "com.ecommerce.events.catalog",
+  "doc": "Master data update for an attribute. Query services should update their local attributes table with this data. Use version for conflict resolution when events arrive out of order.",
+  "fields": [
+    {
+      "name": "attribute_id",
+      "type": "string",
+      "doc": "Unique attribute identifier (UUID)"
+    },
+    {
+      "name": "slug",
+      "type": "string",
+      "doc": "URL-friendly identifier (immutable)"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "doc": "Display name of the attribute"
+    },
+    {
+      "name": "type",
+      "type": {
+        "type": "enum",
+        "name": "AttributeType",
+        "symbols": ["single", "multiple", "range", "boolean", "text"],
+        "doc": "The type of attribute values"
+      },
+      "doc": "Attribute type (immutable)"
+    },
+    {
+      "name": "unit",
+      "type": ["null", "string"],
+      "default": null,
+      "doc": "Unit of measurement for range type attributes (e.g., GB, kg, mm)"
+    },
+    {
+      "name": "enabled",
+      "type": "boolean",
+      "doc": "Whether the attribute is enabled for display"
+    },
+    {
+      "name": "version",
+      "type": "int",
+      "doc": "Entity version for conflict resolution. Only apply if incoming version > stored version."
+    },
+    {
+      "name": "modified_at",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      },
+      "doc": "Attribute last modification timestamp"
+    },
+    {
+      "name": "options",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "AttributeOption",
+          "doc": "Option for single/multiple type attributes",
+          "fields": [
+            {
+              "name": "slug",
+              "type": "string",
+              "doc": "URL-friendly identifier (immutable)"
+            },
+            {
+              "name": "name",
+              "type": "string",
+              "doc": "Display name of the option"
+            },
+            {
+              "name": "color_code",
+              "type": ["null", "string"],
+              "default": null,
+              "doc": "Hex color code for color options"
+            },
+            {
+              "name": "sort_order",
+              "type": "int",
+              "doc": "Sort order for display"
+            }
+          ]
+        }
+      },
+      "doc": "Available options for single/multiple type attributes",
+      "default": []
+    }
+  ]
+}

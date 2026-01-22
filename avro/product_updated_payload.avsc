@@ -2,7 +2,7 @@
   "type": "record",
   "name": "ProductUpdatedPayload",
   "namespace": "com.ecommerce.events.catalog",
-  "doc": "Business data for product update event",
+  "doc": "Business data for product update event. Contains only immutable references - mutable data (attribute names, option names, etc.) should be fetched from master data tables via AttributeUpdated events.",
   "fields": [
     {
       "name": "product_id",
@@ -77,7 +77,7 @@
           "items": {
             "type": "record",
             "name": "ProductAttribute",
-            "doc": "Product attribute with value",
+            "doc": "Product attribute reference with value. Only immutable fields (IDs, slugs) and product-specific values are included. Mutable display data should be joined from master data tables.",
             "fields": [
               {
                 "name": "attribute_id",
@@ -87,88 +87,44 @@
               {
                 "name": "attribute_slug",
                 "type": "string",
-                "doc": "Attribute slug for filtering"
-              },
-              {
-                "name": "attribute_name",
-                "type": "string",
-                "doc": "Display name of the attribute"
-              },
-              {
-                "name": "attribute_type",
-                "type": "string",
-                "doc": "Attribute type for rendering (single, multiple, range, boolean, text)"
-              },
-              {
-                "name": "attribute_unit",
-                "type": ["null", "string"],
-                "default": null,
-                "doc": "Unit for range type attributes (GB, kg, mm)"
-              },
-              {
-                "name": "role",
-                "type": "string",
-                "doc": "How attribute is used in category (variant, specification)"
-              },
-              {
-                "name": "sort_order",
-                "type": "int",
-                "doc": "Display order of the attribute in category"
+                "doc": "Attribute slug for filtering (immutable)"
               },
               {
                 "name": "option_slug_value",
                 "type": ["null", "string"],
                 "default": null,
-                "doc": "Slug of selected option (for single type)"
+                "doc": "Slug of selected option for single type (immutable reference)"
               },
               {
                 "name": "option_slug_values",
                 "type": ["null", {"type": "array", "items": "string"}],
                 "default": null,
-                "doc": "Slugs of selected options (for multiple type)"
-              },
-              {
-                "name": "option_name",
-                "type": ["null", "string"],
-                "default": null,
-                "doc": "Display name of selected option (for single type)"
-              },
-              {
-                "name": "option_names",
-                "type": ["null", {"type": "array", "items": "string"}],
-                "default": null,
-                "doc": "Display names of selected options (for multiple type)"
-              },
-              {
-                "name": "option_color_code",
-                "type": ["null", "string"],
-                "default": null,
-                "doc": "Hex color code for color attributes"
+                "doc": "Slugs of selected options for multiple type (immutable references)"
               },
               {
                 "name": "numeric_value",
                 "type": ["null", "float"],
                 "default": null,
-                "doc": "Numeric value (for range type)"
+                "doc": "Numeric value for range type"
               },
               {
                 "name": "text_value",
                 "type": ["null", "string"],
                 "default": null,
-                "doc": "Free text value (for text type)"
+                "doc": "Free text value for text type"
               },
               {
                 "name": "boolean_value",
                 "type": ["null", "boolean"],
                 "default": null,
-                "doc": "Boolean value (for boolean type)"
+                "doc": "Boolean value for boolean type"
               }
             ]
           }
         }
       ],
       "default": null,
-      "doc": "List of attribute values for this product"
+      "doc": "List of attribute references with values for this product"
     }
   ]
 }

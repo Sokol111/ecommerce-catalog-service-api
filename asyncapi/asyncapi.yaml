@@ -7,13 +7,11 @@ channels:
   catalog.product.events:
     description: Product lifecycle events
     messages:
-      ProductCreated: {}
       ProductUpdated: {}
 
   catalog.category.events:
     description: Category lifecycle events
     messages:
-      CategoryCreated: {}
       CategoryUpdated: {}
 
   catalog.attribute.events:

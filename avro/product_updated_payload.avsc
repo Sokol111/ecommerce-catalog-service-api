@@ -85,11 +85,6 @@
                 "doc": "Reference to the attribute definition (UUID)"
               },
               {
-                "name": "attribute_slug",
-                "type": "string",
-                "doc": "Attribute slug for filtering (immutable)"
-              },
-              {
                 "name": "option_slug_value",
                 "type": ["null", "string"],
                 "default": null,

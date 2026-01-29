@@ -2,6 +2,7 @@
   "type": "record",
   "name": "ProductUpdatedPayload",
   "namespace": "com.ecommerce.events.catalog",
+  "topic": "catalog.product.events",
   "doc": "Business data for product update event. Contains only immutable references - mutable data (attribute names, option names, etc.) should be fetched from master data tables via AttributeUpdated events.",
   "fields": [
     {

@@ -2,6 +2,7 @@
   "type": "record",
   "name": "CategoryUpdatedPayload",
   "namespace": "com.ecommerce.events.catalog",
+  "topic": "catalog.category.events",
   "doc": "Business data for category update event. Contains only immutable references and category-specific settings. Mutable attribute data should be fetched from master data tables.",
   "fields": [
     {

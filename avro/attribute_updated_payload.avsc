@@ -2,6 +2,7 @@
   "type": "record",
   "name": "AttributeUpdatedPayload",
   "namespace": "com.ecommerce.events.catalog",
+  "topic": "catalog.attribute.events",
   "doc": "Master data update for an attribute. Query services should update their local attributes table with this data. Use version for conflict resolution when events arrive out of order.",
   "fields": [
     {

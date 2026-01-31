@@ -9,7 +9,7 @@ This service combines:
 - **Categories** - Product categories with attribute assignments
 - **Products** - Products with attribute values
 
- * OpenAPI spec version: 1.0.5
+ * OpenAPI spec version: 1.0.6
  */
 import axios from 'axios';
 import type {

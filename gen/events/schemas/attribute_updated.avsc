@@ -1,0 +1,165 @@
+{
+  "doc": "Event envelope for AttributeUpdated",
+  "fields": [
+    {
+      "doc": "Event metadata containing technical and observability fields",
+      "name": "metadata",
+      "type": {
+        "doc": "Common event metadata used by all domain events. Contains technical/observability fields separate from business payload.",
+        "fields": [
+          {
+            "name": "event_id",
+            "type": "string",
+            "doc": "Unique event identifier (UUID)"
+          },
+          {
+            "name": "event_type",
+            "type": "string",
+            "doc": "Type of the event (e.g., ProductCreated, ProductUpdated)"
+          },
+          {
+            "name": "source",
+            "type": "string",
+            "doc": "Source service that produced the event"
+          },
+          {
+            "name": "timestamp",
+            "type": {
+              "logicalType": "timestamp-millis",
+              "type": "long"
+            },
+            "doc": "Event creation timestamp in milliseconds since epoch"
+          },
+          {
+            "name": "trace_id",
+            "type": [
+              "null",
+              "string"
+            ],
+            "doc": "OpenTelemetry trace ID for distributed tracing"
+          },
+          {
+            "name": "correlation_id",
+            "type": [
+              "null",
+              "string"
+            ],
+            "doc": "Correlation ID for request tracking across services"
+          }
+        ],
+        "name": "EventMetadata",
+        "type": "record"
+      }
+    },
+    {
+      "doc": "Business data for AttributeUpdated event",
+      "name": "payload",
+      "type": {
+        "doc": "Master data update for an attribute. Query services should update their local attributes table with this data. Use version for conflict resolution when events arrive out of order.",
+        "fields": [
+          {
+            "name": "attribute_id",
+            "type": "string",
+            "doc": "Unique attribute identifier (UUID)"
+          },
+          {
+            "name": "slug",
+            "type": "string",
+            "doc": "URL-friendly identifier (immutable)"
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "doc": "Display name of the attribute"
+          },
+          {
+            "name": "type",
+            "type": {
+              "doc": "The type of attribute values",
+              "name": "AttributeType",
+              "symbols": [
+                "single",
+                "multiple",
+                "range",
+                "boolean",
+                "text"
+              ],
+              "type": "enum"
+            },
+            "doc": "Attribute type (immutable)"
+          },
+          {
+            "name": "unit",
+            "type": [
+              "null",
+              "string"
+            ],
+            "doc": "Unit of measurement for range type attributes (e.g., GB, kg, mm)"
+          },
+          {
+            "name": "enabled",
+            "type": "boolean",
+            "doc": "Whether the attribute is enabled for display"
+          },
+          {
+            "name": "version",
+            "type": "int",
+            "doc": "Entity version for conflict resolution. Only apply if incoming version \u003e stored version."
+          },
+          {
+            "name": "modified_at",
+            "type": {
+              "logicalType": "timestamp-millis",
+              "type": "long"
+            },
+            "doc": "Attribute last modification timestamp"
+          },
+          {
+            "name": "options",
+            "type": {
+              "items": {
+                "doc": "Option for single/multiple type attributes",
+                "fields": [
+                  {
+                    "doc": "URL-friendly identifier (immutable)",
+                    "name": "slug",
+                    "type": "string"
+                  },
+                  {
+                    "doc": "Display name of the option",
+                    "name": "name",
+                    "type": "string"
+                  },
+                  {
+                    "default": null,
+                    "doc": "Hex color code for color options",
+                    "name": "color_code",
+                    "type": [
+                      "null",
+                      "string"
+                    ]
+                  },
+                  {
+                    "doc": "Sort order for display",
+                    "name": "sort_order",
+                    "type": "int"
+                  }
+                ],
+                "name": "AttributeOption",
+                "type": "record"
+              },
+              "type": "array"
+            },
+            "doc": "Available options for single/multiple type attributes",
+            "default": []
+          }
+        ],
+        "name": "AttributeUpdatedPayload",
+        "type": "record"
+      }
+    }
+  ],
+  "name": "AttributeUpdatedEvent",
+  "namespace": "com.ecommerce.events.catalog",
+  "type": "record"
+}

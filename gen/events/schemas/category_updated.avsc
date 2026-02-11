@@ -52,7 +52,7 @@
       }
     },
     {
-      "doc": "Business data for category updated event",
+      "doc": "Business data for CategoryUpdated event",
       "name": "payload",
       "type": {
         "doc": "Business data for category update event. Contains only immutable references and category-specific settings. Mutable attribute data should be fetched from master data tables.",

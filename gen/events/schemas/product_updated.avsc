@@ -52,7 +52,7 @@
       }
     },
     {
-      "doc": "Business data for product updated event",
+      "doc": "Business data for ProductUpdated event",
       "name": "payload",
       "type": {
         "doc": "Business data for product update event. Contains only immutable references - mutable data (attribute names, option names, etc.) should be fetched from master data tables via AttributeUpdated events.",

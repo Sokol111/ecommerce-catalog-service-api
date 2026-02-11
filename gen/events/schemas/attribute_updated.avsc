@@ -52,7 +52,7 @@
       }
     },
     {
-      "doc": "Business data for attribute updated event",
+      "doc": "Business data for AttributeUpdated event",
       "name": "payload",
       "type": {
         "doc": "Master data update for an attribute. Query services should update their local attributes table with this data. Use version for conflict resolution when events arrive out of order.",

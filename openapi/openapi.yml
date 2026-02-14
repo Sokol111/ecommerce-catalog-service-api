@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Catalog API
-  version: 1.0.8
+  version: 1.0.9
   description: |
     API for managing product catalog.
     
@@ -28,8 +28,6 @@ paths:
     $ref: "./paths/attributes.yml#/paths/~1v1~1attribute~1get~1{id}"
   /v1/attribute/list:
     $ref: "./paths/attributes.yml#/paths/~1v1~1attribute~1list"
-  /v1/attribute/delete/{id}:
-    $ref: "./paths/attributes.yml#/paths/~1v1~1attribute~1delete~1{id}"
 
   # ==================== CATEGORIES ====================
   /v1/category/create:

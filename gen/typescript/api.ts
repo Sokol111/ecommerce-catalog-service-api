@@ -9,7 +9,7 @@ This service combines:
 - **Categories** - Product categories with attribute assignments
 - **Products** - Products with attribute values
 
- * OpenAPI spec version: 1.0.8
+ * OpenAPI spec version: 1.0.9
  */
 import axios from 'axios';
 import type {
@@ -84,17 +84,6 @@ const getAttributeList = <TData = AxiosResponse<AttributeListResponse>>(
       `/v1/attribute/list`,{
     ...options,
         params: {...params, ...options?.params},}
-    );
-  }
-
-/**
- * @summary Delete an attribute by ID
- */
-const deleteAttribute = <TData = AxiosResponse<void>>(
-    id: string, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.delete(
-      `/v1/attribute/delete/${id}`,options
     );
   }
 
@@ -194,12 +183,11 @@ const getProductList = <TData = AxiosResponse<ProductListResponse>>(
     );
   }
 
-return {createAttribute,updateAttribute,getAttributeById,getAttributeList,deleteAttribute,createCategory,updateCategory,getCategoryById,getCategoryList,createProduct,updateProduct,getProductById,getProductList}};
+return {createAttribute,updateAttribute,getAttributeById,getAttributeList,createCategory,updateCategory,getCategoryById,getCategoryList,createProduct,updateProduct,getProductById,getProductList}};
 export type CreateAttributeResult = AxiosResponse<AttributeResponse>
 export type UpdateAttributeResult = AxiosResponse<AttributeResponse>
 export type GetAttributeByIdResult = AxiosResponse<AttributeResponse>
 export type GetAttributeListResult = AxiosResponse<AttributeListResponse>
-export type DeleteAttributeResult = AxiosResponse<void>
 export type CreateCategoryResult = AxiosResponse<CategoryResponse>
 export type UpdateCategoryResult = AxiosResponse<CategoryResponse>
 export type GetCategoryByIdResult = AxiosResponse<CategoryResponse>

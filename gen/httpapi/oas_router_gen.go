@@ -93,37 +93,6 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 						return
 					}
 
-				case 'd': // Prefix: "delete/"
-
-					if l := len("delete/"); len(elem) >= l && elem[0:l] == "delete/" {
-						elem = elem[l:]
-					} else {
-						break
-					}
-
-					// Param: "id"
-					// Leaf parameter, slashes are prohibited
-					idx := strings.IndexByte(elem, '/')
-					if idx >= 0 {
-						break
-					}
-					args[0] = elem
-					elem = ""
-
-					if len(elem) == 0 {
-						// Leaf node.
-						switch r.Method {
-						case "DELETE":
-							s.handleDeleteAttributeRequest([1]string{
-								args[0],
-							}, elemIsEscaped, w, r)
-						default:
-							s.notAllowed(w, r, "DELETE")
-						}
-
-						return
-					}
-
 				case 'g': // Prefix: "get/"
 
 					if l := len("get/"); len(elem) >= l && elem[0:l] == "get/" {
@@ -538,40 +507,6 @@ func (s *Server) FindPath(method string, u *url.URL) (r Route, _ bool) {
 							r.pathPattern = "/v1/attribute/create"
 							r.args = args
 							r.count = 0
-							return r, true
-						default:
-							return
-						}
-					}
-
-				case 'd': // Prefix: "delete/"
-
-					if l := len("delete/"); len(elem) >= l && elem[0:l] == "delete/" {
-						elem = elem[l:]
-					} else {
-						break
-					}
-
-					// Param: "id"
-					// Leaf parameter, slashes are prohibited
-					idx := strings.IndexByte(elem, '/')
-					if idx >= 0 {
-						break
-					}
-					args[0] = elem
-					elem = ""
-
-					if len(elem) == 0 {
-						// Leaf node.
-						switch method {
-						case "DELETE":
-							r.name = DeleteAttributeOperation
-							r.summary = "Delete an attribute by ID"
-							r.operationID = "deleteAttribute"
-							r.operationGroup = ""
-							r.pathPattern = "/v1/attribute/delete/{id}"
-							r.args = args
-							r.count = 1
 							return r, true
 						default:
 							return

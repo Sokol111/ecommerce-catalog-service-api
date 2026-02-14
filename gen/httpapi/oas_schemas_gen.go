@@ -1249,23 +1249,6 @@ type CreateProductUnauthorized Problem
 
 func (*CreateProductUnauthorized) createProductRes() {}
 
-type DeleteAttributeConflict Problem
-
-func (*DeleteAttributeConflict) deleteAttributeRes() {}
-
-type DeleteAttributeInternalServerError Problem
-
-func (*DeleteAttributeInternalServerError) deleteAttributeRes() {}
-
-// DeleteAttributeNoContent is response for DeleteAttribute operation.
-type DeleteAttributeNoContent struct{}
-
-func (*DeleteAttributeNoContent) deleteAttributeRes() {}
-
-type DeleteAttributeNotFound Problem
-
-func (*DeleteAttributeNotFound) deleteAttributeRes() {}
-
 type GetAttributeByIdInternalServerError Problem
 
 func (*GetAttributeByIdInternalServerError) getAttributeByIdRes() {}

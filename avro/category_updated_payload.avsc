@@ -50,11 +50,6 @@
               "doc": "Role of the attribute (variant creates product variants, specification describes the product)"
             },
             {
-              "name": "required",
-              "type": "boolean",
-              "doc": "Whether the attribute is required for products in this category"
-            },
-            {
               "name": "sort_order",
               "type": "int",
               "doc": "Sort order for display in this category"

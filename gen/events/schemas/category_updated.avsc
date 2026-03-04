@@ -102,11 +102,6 @@
                     }
                   },
                   {
-                    "doc": "Whether the attribute is required for products in this category",
-                    "name": "required",
-                    "type": "boolean"
-                  },
-                  {
                     "doc": "Sort order for display in this category",
                     "name": "sort_order",
                     "type": "int"

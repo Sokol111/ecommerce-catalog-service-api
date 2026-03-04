@@ -47,8 +47,6 @@ package events
 		AttributeSlug string `avro:"attribute_slug" json:"attribute_slug"`
 		// Role of the attribute (variant creates product variants, specification describes the product).
 		Role string `avro:"role" json:"role"`
-		// Whether the attribute is required for products in this category.
-		Required bool `avro:"required" json:"required"`
 		// Sort order for display in this category.
 		SortOrder int `avro:"sort_order" json:"sort_order"`
 		// Whether the attribute is filterable for this category.

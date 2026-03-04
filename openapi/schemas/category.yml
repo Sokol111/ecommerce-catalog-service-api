@@ -144,10 +144,6 @@ components:
             How this attribute is used in this category:
             - variant: Creates product variants (color, size) - buyer can choose
             - specification: Describes the product (processor, screen) - shown in specs
-        required:
-          type: boolean
-          example: false
-          description: Whether products must have this attribute
         sortOrder:
           type: integer
           example: 1
@@ -168,7 +164,6 @@ components:
       required:
         - attributeId
         - role
-        - required
         - sortOrder
         - filterable
         - searchable
@@ -180,9 +175,6 @@ components:
           type: string
           enum: [variant, specification]
           example: "specification"
-        required:
-          type: boolean
-          example: false
         sortOrder:
           type: integer
           example: 1

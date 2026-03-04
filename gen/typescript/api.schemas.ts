@@ -9,7 +9,7 @@ This service combines:
 - **Categories** - Product categories with attribute assignments
 - **Products** - Products with attribute values
 
- * OpenAPI spec version: 1.0.13
+ * OpenAPI spec version: 1.0.14
  */
 
 
@@ -429,8 +429,6 @@ export interface CategoryAttributeInput {
 - specification: Describes the product (processor, screen) - shown in specs
  */
   role: CategoryAttributeInputRole;
-  /** Whether products must have this attribute */
-  required?: boolean;
   /**
    * @minimum 0
    * @maximum 10000
@@ -457,7 +455,6 @@ export const CategoryAttributeRole = {
 export interface CategoryAttribute {
   attributeId: string;
   role: CategoryAttributeRole;
-  required: boolean;
   sortOrder: number;
   filterable: boolean;
   searchable: boolean;

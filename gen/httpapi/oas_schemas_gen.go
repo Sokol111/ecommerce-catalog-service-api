@@ -530,7 +530,6 @@ func (s *BearerAuth) SetRoles(val []string) {
 type CategoryAttribute struct {
 	AttributeId string                `json:"attributeId"`
 	Role        CategoryAttributeRole `json:"role"`
-	Required    bool                  `json:"required"`
 	SortOrder   int                   `json:"sortOrder"`
 	Filterable  bool                  `json:"filterable"`
 	Searchable  bool                  `json:"searchable"`
@@ -544,11 +543,6 @@ func (s *CategoryAttribute) GetAttributeId() string {
 // GetRole returns the value of Role.
 func (s *CategoryAttribute) GetRole() CategoryAttributeRole {
 	return s.Role
-}
-
-// GetRequired returns the value of Required.
-func (s *CategoryAttribute) GetRequired() bool {
-	return s.Required
 }
 
 // GetSortOrder returns the value of SortOrder.
@@ -576,11 +570,6 @@ func (s *CategoryAttribute) SetRole(val CategoryAttributeRole) {
 	s.Role = val
 }
 
-// SetRequired sets the value of Required.
-func (s *CategoryAttribute) SetRequired(val bool) {
-	s.Required = val
-}
-
 // SetSortOrder sets the value of SortOrder.
 func (s *CategoryAttribute) SetSortOrder(val int) {
 	s.SortOrder = val
@@ -603,10 +592,8 @@ type CategoryAttributeInput struct {
 	// How this attribute is used in this category:
 	// - variant: Creates product variants (color, size) - buyer can choose
 	// - specification: Describes the product (processor, screen) - shown in specs.
-	Role CategoryAttributeInputRole `json:"role"`
-	// Whether products must have this attribute.
-	Required  OptBool `json:"required"`
-	SortOrder OptInt  `json:"sortOrder"`
+	Role      CategoryAttributeInputRole `json:"role"`
+	SortOrder OptInt                     `json:"sortOrder"`
 	// Whether this attribute can be used as a filter.
 	Filterable bool `json:"filterable"`
 	// Whether this attribute value is included in search.
@@ -621,11 +608,6 @@ func (s *CategoryAttributeInput) GetAttributeId() uuid.UUID {
 // GetRole returns the value of Role.
 func (s *CategoryAttributeInput) GetRole() CategoryAttributeInputRole {
 	return s.Role
-}
-
-// GetRequired returns the value of Required.
-func (s *CategoryAttributeInput) GetRequired() OptBool {
-	return s.Required
 }
 
 // GetSortOrder returns the value of SortOrder.
@@ -651,11 +633,6 @@ func (s *CategoryAttributeInput) SetAttributeId(val uuid.UUID) {
 // SetRole sets the value of Role.
 func (s *CategoryAttributeInput) SetRole(val CategoryAttributeInputRole) {
 	s.Role = val
-}
-
-// SetRequired sets the value of Required.
-func (s *CategoryAttributeInput) SetRequired(val OptBool) {
-	s.Required = val
 }
 
 // SetSortOrder sets the value of SortOrder.

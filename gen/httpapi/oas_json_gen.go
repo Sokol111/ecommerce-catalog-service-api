@@ -1174,10 +1174,6 @@ func (s *CategoryAttribute) encodeFields(e *jx.Encoder) {
 		s.Role.Encode(e)
 	}
 	{
-		e.FieldStart("required")
-		e.Bool(s.Required)
-	}
-	{
 		e.FieldStart("sortOrder")
 		e.Int(s.SortOrder)
 	}
@@ -1191,13 +1187,12 @@ func (s *CategoryAttribute) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfCategoryAttribute = [6]string{
+var jsonFieldsNameOfCategoryAttribute = [5]string{
 	0: "attributeId",
 	1: "role",
-	2: "required",
-	3: "sortOrder",
-	4: "filterable",
-	5: "searchable",
+	2: "sortOrder",
+	3: "filterable",
+	4: "searchable",
 }
 
 // Decode decodes CategoryAttribute from json.
@@ -1231,20 +1226,8 @@ func (s *CategoryAttribute) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"role\"")
 			}
-		case "required":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Bool()
-				s.Required = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"required\"")
-			}
 		case "sortOrder":
-			requiredBitSet[0] |= 1 << 3
+			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
 				v, err := d.Int()
 				s.SortOrder = int(v)
@@ -1256,7 +1239,7 @@ func (s *CategoryAttribute) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"sortOrder\"")
 			}
 		case "filterable":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				v, err := d.Bool()
 				s.Filterable = bool(v)
@@ -1268,7 +1251,7 @@ func (s *CategoryAttribute) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"filterable\"")
 			}
 		case "searchable":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				v, err := d.Bool()
 				s.Searchable = bool(v)
@@ -1289,7 +1272,7 @@ func (s *CategoryAttribute) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00111111,
+		0b00011111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1353,12 +1336,6 @@ func (s *CategoryAttributeInput) encodeFields(e *jx.Encoder) {
 		s.Role.Encode(e)
 	}
 	{
-		if s.Required.Set {
-			e.FieldStart("required")
-			s.Required.Encode(e)
-		}
-	}
-	{
 		if s.SortOrder.Set {
 			e.FieldStart("sortOrder")
 			s.SortOrder.Encode(e)
@@ -1374,13 +1351,12 @@ func (s *CategoryAttributeInput) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfCategoryAttributeInput = [6]string{
+var jsonFieldsNameOfCategoryAttributeInput = [5]string{
 	0: "attributeId",
 	1: "role",
-	2: "required",
-	3: "sortOrder",
-	4: "filterable",
-	5: "searchable",
+	2: "sortOrder",
+	3: "filterable",
+	4: "searchable",
 }
 
 // Decode decodes CategoryAttributeInput from json.
@@ -1414,16 +1390,6 @@ func (s *CategoryAttributeInput) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"role\"")
 			}
-		case "required":
-			if err := func() error {
-				s.Required.Reset()
-				if err := s.Required.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"required\"")
-			}
 		case "sortOrder":
 			if err := func() error {
 				s.SortOrder.Reset()
@@ -1435,7 +1401,7 @@ func (s *CategoryAttributeInput) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"sortOrder\"")
 			}
 		case "filterable":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				v, err := d.Bool()
 				s.Filterable = bool(v)
@@ -1447,7 +1413,7 @@ func (s *CategoryAttributeInput) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"filterable\"")
 			}
 		case "searchable":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				v, err := d.Bool()
 				s.Searchable = bool(v)
@@ -1468,7 +1434,7 @@ func (s *CategoryAttributeInput) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00110011,
+		0b00011011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.

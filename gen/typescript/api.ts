@@ -9,14 +9,8 @@ This service combines:
 - **Categories** - Product categories with attribute assignments
 - **Products** - Products with attribute values
 
- * OpenAPI spec version: 1.0.12
+ * OpenAPI spec version: 1.0.13
  */
-import axios from 'axios';
-import type {
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios';
-
 import type {
   AttributeListResponse,
   AttributeResponse,
@@ -28,6 +22,7 @@ import type {
   GetAttributeListParams,
   GetCategoryListParams,
   GetProductListParams,
+  Problem,
   ProductListResponse,
   ProductResponse,
   UpdateAttributeRequest,
@@ -36,163 +31,758 @@ import type {
 } from './api.schemas';
 
 
-
-
-  export const getCatalogAPI = () => {
 /**
  * @summary Create a new attribute
  */
-const createAttribute = <TData = AxiosResponse<AttributeResponse>>(
-    createAttributeRequest: CreateAttributeRequest, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.post(
-      `/v1/attribute/create`,
-      createAttributeRequest,options
-    );
+export type createAttributeResponse200 = {
+  data: AttributeResponse
+  status: 200
+}
+
+export type createAttributeResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type createAttributeResponse409 = {
+  data: Problem
+  status: 409
+}
+
+export type createAttributeResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type createAttributeResponseSuccess = (createAttributeResponse200) & {
+  headers: Headers;
+};
+export type createAttributeResponseError = (createAttributeResponse400 | createAttributeResponse409 | createAttributeResponse500) & {
+  headers: Headers;
+};
+
+export type createAttributeResponse = (createAttributeResponseSuccess | createAttributeResponseError)
+
+export const getCreateAttributeUrl = () => {
+
+
+  
+
+  return `/v1/attribute/create`
+}
+
+export const createAttribute = async (createAttributeRequest: CreateAttributeRequest, options?: RequestInit): Promise<createAttributeResponse> => {
+  
+  const res = await fetch(getCreateAttributeUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createAttributeRequest,)
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: createAttributeResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as createAttributeResponse
+}
+
+
 
 /**
  * @summary Update an existing attribute
  */
-const updateAttribute = <TData = AxiosResponse<AttributeResponse>>(
-    updateAttributeRequest: UpdateAttributeRequest, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.put(
-      `/v1/attribute/update`,
-      updateAttributeRequest,options
-    );
+export type updateAttributeResponse200 = {
+  data: AttributeResponse
+  status: 200
+}
+
+export type updateAttributeResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type updateAttributeResponse404 = {
+  data: Problem
+  status: 404
+}
+
+export type updateAttributeResponse409 = {
+  data: Problem
+  status: 409
+}
+
+export type updateAttributeResponse412 = {
+  data: Problem
+  status: 412
+}
+
+export type updateAttributeResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type updateAttributeResponseSuccess = (updateAttributeResponse200) & {
+  headers: Headers;
+};
+export type updateAttributeResponseError = (updateAttributeResponse400 | updateAttributeResponse404 | updateAttributeResponse409 | updateAttributeResponse412 | updateAttributeResponse500) & {
+  headers: Headers;
+};
+
+export type updateAttributeResponse = (updateAttributeResponseSuccess | updateAttributeResponseError)
+
+export const getUpdateAttributeUrl = () => {
+
+
+  
+
+  return `/v1/attribute/update`
+}
+
+export const updateAttribute = async (updateAttributeRequest: UpdateAttributeRequest, options?: RequestInit): Promise<updateAttributeResponse> => {
+  
+  const res = await fetch(getUpdateAttributeUrl(),
+  {      
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateAttributeRequest,)
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: updateAttributeResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as updateAttributeResponse
+}
+
+
 
 /**
  * @summary Get an attribute by ID
  */
-const getAttributeById = <TData = AxiosResponse<AttributeResponse>>(
-    id: string, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.get(
-      `/v1/attribute/get/${id}`,options
-    );
+export type getAttributeByIdResponse200 = {
+  data: AttributeResponse
+  status: 200
+}
+
+export type getAttributeByIdResponse404 = {
+  data: Problem
+  status: 404
+}
+
+export type getAttributeByIdResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type getAttributeByIdResponseSuccess = (getAttributeByIdResponse200) & {
+  headers: Headers;
+};
+export type getAttributeByIdResponseError = (getAttributeByIdResponse404 | getAttributeByIdResponse500) & {
+  headers: Headers;
+};
+
+export type getAttributeByIdResponse = (getAttributeByIdResponseSuccess | getAttributeByIdResponseError)
+
+export const getGetAttributeByIdUrl = (id: string,) => {
+
+
+  
+
+  return `/v1/attribute/get/${id}`
+}
+
+export const getAttributeById = async (id: string, options?: RequestInit): Promise<getAttributeByIdResponse> => {
+  
+  const res = await fetch(getGetAttributeByIdUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getAttributeByIdResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getAttributeByIdResponse
+}
+
+
 
 /**
  * @summary Get a paginated list of attributes
  */
-const getAttributeList = <TData = AxiosResponse<AttributeListResponse>>(
-    params: GetAttributeListParams, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.get(
-      `/v1/attribute/list`,{
+export type getAttributeListResponse200 = {
+  data: AttributeListResponse
+  status: 200
+}
+
+export type getAttributeListResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type getAttributeListResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type getAttributeListResponseSuccess = (getAttributeListResponse200) & {
+  headers: Headers;
+};
+export type getAttributeListResponseError = (getAttributeListResponse400 | getAttributeListResponse500) & {
+  headers: Headers;
+};
+
+export type getAttributeListResponse = (getAttributeListResponseSuccess | getAttributeListResponseError)
+
+export const getGetAttributeListUrl = (params: GetAttributeListParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/v1/attribute/list?${stringifiedParams}` : `/v1/attribute/list`
+}
+
+export const getAttributeList = async (params: GetAttributeListParams, options?: RequestInit): Promise<getAttributeListResponse> => {
+  
+  const res = await fetch(getGetAttributeListUrl(params),
+  {      
     ...options,
-        params: {...params, ...options?.params},}
-    );
+    method: 'GET'
+    
+    
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getAttributeListResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getAttributeListResponse
+}
+
+
 
 /**
  * @summary Create a new category
  */
-const createCategory = <TData = AxiosResponse<CategoryResponse>>(
-    createCategoryRequest: CreateCategoryRequest, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.post(
-      `/v1/category/create`,
-      createCategoryRequest,options
-    );
+export type createCategoryResponse200 = {
+  data: CategoryResponse
+  status: 200
+}
+
+export type createCategoryResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type createCategoryResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type createCategoryResponseSuccess = (createCategoryResponse200) & {
+  headers: Headers;
+};
+export type createCategoryResponseError = (createCategoryResponse400 | createCategoryResponse500) & {
+  headers: Headers;
+};
+
+export type createCategoryResponse = (createCategoryResponseSuccess | createCategoryResponseError)
+
+export const getCreateCategoryUrl = () => {
+
+
+  
+
+  return `/v1/category/create`
+}
+
+export const createCategory = async (createCategoryRequest: CreateCategoryRequest, options?: RequestInit): Promise<createCategoryResponse> => {
+  
+  const res = await fetch(getCreateCategoryUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createCategoryRequest,)
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: createCategoryResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as createCategoryResponse
+}
+
+
 
 /**
  * @summary Update an existing category
  */
-const updateCategory = <TData = AxiosResponse<CategoryResponse>>(
-    updateCategoryRequest: UpdateCategoryRequest, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.put(
-      `/v1/category/update`,
-      updateCategoryRequest,options
-    );
+export type updateCategoryResponse200 = {
+  data: CategoryResponse
+  status: 200
+}
+
+export type updateCategoryResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type updateCategoryResponse404 = {
+  data: Problem
+  status: 404
+}
+
+export type updateCategoryResponse412 = {
+  data: Problem
+  status: 412
+}
+
+export type updateCategoryResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type updateCategoryResponseSuccess = (updateCategoryResponse200) & {
+  headers: Headers;
+};
+export type updateCategoryResponseError = (updateCategoryResponse400 | updateCategoryResponse404 | updateCategoryResponse412 | updateCategoryResponse500) & {
+  headers: Headers;
+};
+
+export type updateCategoryResponse = (updateCategoryResponseSuccess | updateCategoryResponseError)
+
+export const getUpdateCategoryUrl = () => {
+
+
+  
+
+  return `/v1/category/update`
+}
+
+export const updateCategory = async (updateCategoryRequest: UpdateCategoryRequest, options?: RequestInit): Promise<updateCategoryResponse> => {
+  
+  const res = await fetch(getUpdateCategoryUrl(),
+  {      
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateCategoryRequest,)
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: updateCategoryResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as updateCategoryResponse
+}
+
+
 
 /**
  * @summary Get a category by ID
  */
-const getCategoryById = <TData = AxiosResponse<CategoryResponse>>(
-    id: string, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.get(
-      `/v1/category/get/${id}`,options
-    );
+export type getCategoryByIdResponse200 = {
+  data: CategoryResponse
+  status: 200
+}
+
+export type getCategoryByIdResponse404 = {
+  data: Problem
+  status: 404
+}
+
+export type getCategoryByIdResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type getCategoryByIdResponseSuccess = (getCategoryByIdResponse200) & {
+  headers: Headers;
+};
+export type getCategoryByIdResponseError = (getCategoryByIdResponse404 | getCategoryByIdResponse500) & {
+  headers: Headers;
+};
+
+export type getCategoryByIdResponse = (getCategoryByIdResponseSuccess | getCategoryByIdResponseError)
+
+export const getGetCategoryByIdUrl = (id: string,) => {
+
+
+  
+
+  return `/v1/category/get/${id}`
+}
+
+export const getCategoryById = async (id: string, options?: RequestInit): Promise<getCategoryByIdResponse> => {
+  
+  const res = await fetch(getGetCategoryByIdUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getCategoryByIdResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getCategoryByIdResponse
+}
+
+
 
 /**
  * @summary Get a paginated list of categories
  */
-const getCategoryList = <TData = AxiosResponse<CategoryListResponse>>(
-    params: GetCategoryListParams, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.get(
-      `/v1/category/list`,{
+export type getCategoryListResponse200 = {
+  data: CategoryListResponse
+  status: 200
+}
+
+export type getCategoryListResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type getCategoryListResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type getCategoryListResponseSuccess = (getCategoryListResponse200) & {
+  headers: Headers;
+};
+export type getCategoryListResponseError = (getCategoryListResponse400 | getCategoryListResponse500) & {
+  headers: Headers;
+};
+
+export type getCategoryListResponse = (getCategoryListResponseSuccess | getCategoryListResponseError)
+
+export const getGetCategoryListUrl = (params: GetCategoryListParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/v1/category/list?${stringifiedParams}` : `/v1/category/list`
+}
+
+export const getCategoryList = async (params: GetCategoryListParams, options?: RequestInit): Promise<getCategoryListResponse> => {
+  
+  const res = await fetch(getGetCategoryListUrl(params),
+  {      
     ...options,
-        params: {...params, ...options?.params},}
-    );
+    method: 'GET'
+    
+    
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getCategoryListResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getCategoryListResponse
+}
+
+
 
 /**
  * @summary Create a new product
  */
-const createProduct = <TData = AxiosResponse<ProductResponse>>(
-    createProductRequest: CreateProductRequest, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.post(
-      `/v1/product/create`,
-      createProductRequest,options
-    );
+export type createProductResponse200 = {
+  data: ProductResponse
+  status: 200
+}
+
+export type createProductResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type createProductResponse401 = {
+  data: Problem
+  status: 401
+}
+
+export type createProductResponse403 = {
+  data: Problem
+  status: 403
+}
+
+export type createProductResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type createProductResponseSuccess = (createProductResponse200) & {
+  headers: Headers;
+};
+export type createProductResponseError = (createProductResponse400 | createProductResponse401 | createProductResponse403 | createProductResponse500) & {
+  headers: Headers;
+};
+
+export type createProductResponse = (createProductResponseSuccess | createProductResponseError)
+
+export const getCreateProductUrl = () => {
+
+
+  
+
+  return `/v1/product/create`
+}
+
+export const createProduct = async (createProductRequest: CreateProductRequest, options?: RequestInit): Promise<createProductResponse> => {
+  
+  const res = await fetch(getCreateProductUrl(),
+  {      
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      createProductRequest,)
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: createProductResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as createProductResponse
+}
+
+
 
 /**
  * @summary Update an existing product
  */
-const updateProduct = <TData = AxiosResponse<ProductResponse>>(
-    updateProductRequest: UpdateProductRequest, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.put(
-      `/v1/product/update`,
-      updateProductRequest,options
-    );
+export type updateProductResponse200 = {
+  data: ProductResponse
+  status: 200
+}
+
+export type updateProductResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type updateProductResponse401 = {
+  data: Problem
+  status: 401
+}
+
+export type updateProductResponse403 = {
+  data: Problem
+  status: 403
+}
+
+export type updateProductResponse404 = {
+  data: Problem
+  status: 404
+}
+
+export type updateProductResponse412 = {
+  data: Problem
+  status: 412
+}
+
+export type updateProductResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type updateProductResponseSuccess = (updateProductResponse200) & {
+  headers: Headers;
+};
+export type updateProductResponseError = (updateProductResponse400 | updateProductResponse401 | updateProductResponse403 | updateProductResponse404 | updateProductResponse412 | updateProductResponse500) & {
+  headers: Headers;
+};
+
+export type updateProductResponse = (updateProductResponseSuccess | updateProductResponseError)
+
+export const getUpdateProductUrl = () => {
+
+
+  
+
+  return `/v1/product/update`
+}
+
+export const updateProduct = async (updateProductRequest: UpdateProductRequest, options?: RequestInit): Promise<updateProductResponse> => {
+  
+  const res = await fetch(getUpdateProductUrl(),
+  {      
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      updateProductRequest,)
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: updateProductResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as updateProductResponse
+}
+
+
 
 /**
  * @summary Get a product by ID
  */
-const getProductById = <TData = AxiosResponse<ProductResponse>>(
-    id: string, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.get(
-      `/v1/product/get/${id}`,options
-    );
+export type getProductByIdResponse200 = {
+  data: ProductResponse
+  status: 200
+}
+
+export type getProductByIdResponse401 = {
+  data: Problem
+  status: 401
+}
+
+export type getProductByIdResponse403 = {
+  data: Problem
+  status: 403
+}
+
+export type getProductByIdResponse404 = {
+  data: Problem
+  status: 404
+}
+
+export type getProductByIdResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type getProductByIdResponseSuccess = (getProductByIdResponse200) & {
+  headers: Headers;
+};
+export type getProductByIdResponseError = (getProductByIdResponse401 | getProductByIdResponse403 | getProductByIdResponse404 | getProductByIdResponse500) & {
+  headers: Headers;
+};
+
+export type getProductByIdResponse = (getProductByIdResponseSuccess | getProductByIdResponseError)
+
+export const getGetProductByIdUrl = (id: string,) => {
+
+
+  
+
+  return `/v1/product/get/${id}`
+}
+
+export const getProductById = async (id: string, options?: RequestInit): Promise<getProductByIdResponse> => {
+  
+  const res = await fetch(getGetProductByIdUrl(id),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
   }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getProductByIdResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getProductByIdResponse
+}
+
+
 
 /**
  * @summary Get a paginated list of products
  */
-const getProductList = <TData = AxiosResponse<ProductListResponse>>(
-    params: GetProductListParams, options?: AxiosRequestConfig
- ): Promise<TData> => {
-    return axios.get(
-      `/v1/product/list`,{
-    ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+export type getProductListResponse200 = {
+  data: ProductListResponse
+  status: 200
+}
 
-return {createAttribute,updateAttribute,getAttributeById,getAttributeList,createCategory,updateCategory,getCategoryById,getCategoryList,createProduct,updateProduct,getProductById,getProductList}};
-export type CreateAttributeResult = AxiosResponse<AttributeResponse>
-export type UpdateAttributeResult = AxiosResponse<AttributeResponse>
-export type GetAttributeByIdResult = AxiosResponse<AttributeResponse>
-export type GetAttributeListResult = AxiosResponse<AttributeListResponse>
-export type CreateCategoryResult = AxiosResponse<CategoryResponse>
-export type UpdateCategoryResult = AxiosResponse<CategoryResponse>
-export type GetCategoryByIdResult = AxiosResponse<CategoryResponse>
-export type GetCategoryListResult = AxiosResponse<CategoryListResponse>
-export type CreateProductResult = AxiosResponse<ProductResponse>
-export type UpdateProductResult = AxiosResponse<ProductResponse>
-export type GetProductByIdResult = AxiosResponse<ProductResponse>
-export type GetProductListResult = AxiosResponse<ProductListResponse>
+export type getProductListResponse400 = {
+  data: Problem
+  status: 400
+}
+
+export type getProductListResponse401 = {
+  data: Problem
+  status: 401
+}
+
+export type getProductListResponse403 = {
+  data: Problem
+  status: 403
+}
+
+export type getProductListResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type getProductListResponseSuccess = (getProductListResponse200) & {
+  headers: Headers;
+};
+export type getProductListResponseError = (getProductListResponse400 | getProductListResponse401 | getProductListResponse403 | getProductListResponse500) & {
+  headers: Headers;
+};
+
+export type getProductListResponse = (getProductListResponseSuccess | getProductListResponseError)
+
+export const getGetProductListUrl = (params: GetProductListParams,) => {
+  const normalizedParams = new URLSearchParams();
+
+  Object.entries(params || {}).forEach(([key, value]) => {
+    
+    if (value !== undefined) {
+      normalizedParams.append(key, value === null ? 'null' : value.toString())
+    }
+  });
+
+  const stringifiedParams = normalizedParams.toString();
+
+  return stringifiedParams.length > 0 ? `/v1/product/list?${stringifiedParams}` : `/v1/product/list`
+}
+
+export const getProductList = async (params: GetProductListParams, options?: RequestInit): Promise<getProductListResponse> => {
+  
+  const res = await fetch(getGetProductListUrl(params),
+  {      
+    ...options,
+    method: 'GET'
+    
+    
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: getProductListResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as getProductListResponse
+}
+
+
+

@@ -77,7 +77,7 @@
           },
           {
             "name": "price",
-            "type": "float",
+            "type": "double",
             "doc": "Product price"
           },
           {
@@ -167,7 +167,7 @@
                       "name": "numeric_value",
                       "type": [
                         "null",
-                        "float"
+                        "double"
                       ]
                     },
                     {

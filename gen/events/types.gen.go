@@ -82,7 +82,7 @@ package events
 		// Slugs of selected options for multiple type (immutable references).
 		OptionSlugValues *[]string `avro:"option_slug_values" json:"option_slug_values"`
 		// Numeric value for range type.
-		NumericValue *float32 `avro:"numeric_value" json:"numeric_value"`
+		NumericValue *float64 `avro:"numeric_value" json:"numeric_value"`
 		// Free text value for text type.
 		TextValue *string `avro:"text_value" json:"text_value"`
 		// Boolean value for boolean type.
@@ -98,7 +98,7 @@ package events
 		// Optional product description.
 		Description *string `avro:"description" json:"description"`
 		// Product price.
-		Price float32 `avro:"price" json:"price"`
+		Price float64 `avro:"price" json:"price"`
 		// Available quantity.
 		Quantity int `avro:"quantity" json:"quantity"`
 		// Optional image identifier.

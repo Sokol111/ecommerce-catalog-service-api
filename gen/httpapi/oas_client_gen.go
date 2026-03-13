@@ -17,7 +17,7 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
-	semconv "go.opentelemetry.io/otel/semconv/v1.37.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.39.0"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -108,10 +108,6 @@ type Client struct {
 	sec       SecuritySource
 	baseClient
 }
-
-var _ Handler = struct {
-	*Client
-}{}
 
 // NewClient initializes new Client defined by OAS.
 func NewClient(serverURL string, sec SecuritySource, opts ...ClientOption) (*Client, error) {
@@ -245,7 +241,8 @@ func (c *Client) sendCreateAttribute(ctx context.Context, request *CreateAttribu
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeCreateAttributeResponse(resp)
@@ -354,7 +351,8 @@ func (c *Client) sendCreateCategory(ctx context.Context, request *CreateCategory
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeCreateCategoryResponse(resp)
@@ -463,7 +461,8 @@ func (c *Client) sendCreateProduct(ctx context.Context, request *CreateProductRe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeCreateProductResponse(resp)
@@ -587,7 +586,8 @@ func (c *Client) sendGetAttributeById(ctx context.Context, params GetAttributeBy
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeGetAttributeByIdResponse(resp)
@@ -793,7 +793,8 @@ func (c *Client) sendGetAttributeList(ctx context.Context, params GetAttributeLi
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeGetAttributeListResponse(resp)
@@ -917,7 +918,8 @@ func (c *Client) sendGetCategoryById(ctx context.Context, params GetCategoryById
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeGetCategoryByIdResponse(resp)
@@ -1106,7 +1108,8 @@ func (c *Client) sendGetCategoryList(ctx context.Context, params GetCategoryList
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeGetCategoryListResponse(resp)
@@ -1230,7 +1233,8 @@ func (c *Client) sendGetProductById(ctx context.Context, params GetProductByIdPa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeGetProductByIdResponse(resp)
@@ -1436,7 +1440,8 @@ func (c *Client) sendGetProductList(ctx context.Context, params GetProductListPa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeGetProductListResponse(resp)
@@ -1545,7 +1550,8 @@ func (c *Client) sendUpdateAttribute(ctx context.Context, request *UpdateAttribu
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeUpdateAttributeResponse(resp)
@@ -1654,7 +1660,8 @@ func (c *Client) sendUpdateCategory(ctx context.Context, request *UpdateCategory
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeUpdateCategoryResponse(resp)
@@ -1763,7 +1770,8 @@ func (c *Client) sendUpdateProduct(ctx context.Context, request *UpdateProductRe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	stage = "DecodeResponse"
 	result, err := decodeUpdateProductResponse(resp)

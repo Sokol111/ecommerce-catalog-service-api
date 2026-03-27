@@ -77,6 +77,8 @@ package events
 	type AttributeValue struct {
 		// Reference to the attribute definition (UUID).
 		AttributeID string `avro:"attribute_id" json:"attribute_id"`
+		// Attribute URL-friendly identifier (immutable).
+		AttributeSlug string `avro:"attribute_slug" json:"attribute_slug"`
 		// Slug of selected option for single type (immutable reference).
 		OptionSlugValue *string `avro:"option_slug_value" json:"option_slug_value"`
 		// Slugs of selected options for multiple type (immutable references).

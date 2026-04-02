@@ -12,5 +12,8 @@ var AttributeUpdatedSchema []byte
 //go:embed schemas/category_updated.avsc
 var CategoryUpdatedSchema []byte
 
+//go:embed schemas/product_deleted.avsc
+var ProductDeletedSchema []byte
+
 //go:embed schemas/product_updated.avsc
 var ProductUpdatedSchema []byte

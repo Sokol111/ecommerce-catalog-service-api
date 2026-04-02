@@ -40,6 +40,15 @@ func (UnimplementedHandler) CreateProduct(ctx context.Context, req *CreateProduc
 	return r, ht.ErrNotImplemented
 }
 
+// DeleteProduct implements deleteProduct operation.
+//
+// Delete a product by ID.
+//
+// DELETE /v1/product/delete/{id}
+func (UnimplementedHandler) DeleteProduct(ctx context.Context, params DeleteProductParams) (r DeleteProductRes, _ error) {
+	return r, ht.ErrNotImplemented
+}
+
 // GetAttributeById implements getAttributeById operation.
 //
 // Get an attribute by ID.

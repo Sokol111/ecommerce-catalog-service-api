@@ -1226,6 +1226,27 @@ type CreateProductUnauthorized Problem
 
 func (*CreateProductUnauthorized) createProductRes() {}
 
+type DeleteProductForbidden Problem
+
+func (*DeleteProductForbidden) deleteProductRes() {}
+
+type DeleteProductInternalServerError Problem
+
+func (*DeleteProductInternalServerError) deleteProductRes() {}
+
+// DeleteProductNoContent is response for DeleteProduct operation.
+type DeleteProductNoContent struct{}
+
+func (*DeleteProductNoContent) deleteProductRes() {}
+
+type DeleteProductNotFound Problem
+
+func (*DeleteProductNotFound) deleteProductRes() {}
+
+type DeleteProductUnauthorized Problem
+
+func (*DeleteProductUnauthorized) deleteProductRes() {}
+
 type GetAttributeByIdInternalServerError Problem
 
 func (*GetAttributeByIdInternalServerError) getAttributeByIdRes() {}

@@ -9,7 +9,7 @@ This service combines:
 - **Categories** - Product categories with attribute assignments
 - **Products** - Products with attribute values
 
- * OpenAPI spec version: 1.1.4
+ * OpenAPI spec version: 1.1.5
  */
 import type {
   AttributeListResponse,
@@ -711,6 +711,70 @@ export const getProductById = async (id: string, options?: RequestInit): Promise
   
   const data: getProductByIdResponse['data'] = body ? JSON.parse(body) : {}
   return { data, status: res.status, headers: res.headers } as getProductByIdResponse
+}
+
+
+
+/**
+ * @summary Delete a product by ID
+ */
+export type deleteProductResponse204 = {
+  data: void
+  status: 204
+}
+
+export type deleteProductResponse401 = {
+  data: Problem
+  status: 401
+}
+
+export type deleteProductResponse403 = {
+  data: Problem
+  status: 403
+}
+
+export type deleteProductResponse404 = {
+  data: Problem
+  status: 404
+}
+
+export type deleteProductResponse500 = {
+  data: Problem
+  status: 500
+}
+    
+export type deleteProductResponseSuccess = (deleteProductResponse204) & {
+  headers: Headers;
+};
+export type deleteProductResponseError = (deleteProductResponse401 | deleteProductResponse403 | deleteProductResponse404 | deleteProductResponse500) & {
+  headers: Headers;
+};
+
+export type deleteProductResponse = (deleteProductResponseSuccess | deleteProductResponseError)
+
+export const getDeleteProductUrl = (id: string,) => {
+
+
+  
+
+  return `/v1/product/delete/${id}`
+}
+
+export const deleteProduct = async (id: string, options?: RequestInit): Promise<deleteProductResponse> => {
+  
+  const res = await fetch(getDeleteProductUrl(id),
+  {      
+    ...options,
+    method: 'DELETE'
+    
+    
+  }
+)
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+  
+  const data: deleteProductResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as deleteProductResponse
 }
 
 

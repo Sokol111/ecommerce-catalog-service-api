@@ -48,6 +48,28 @@ func (e *CategoryUpdatedEvent) GetSchema() []byte {
 	return CategoryUpdatedSchema
 }
 
+// ProductDeletedEvent is the event envelope for ProductDeleted.
+type ProductDeletedEvent struct {
+	Metadata events.EventMetadata  `avro:"metadata" json:"metadata"`
+	Payload  ProductDeletedPayload `avro:"payload" json:"payload"`
+}
+
+func (e *ProductDeletedEvent) GetMetadata() *events.EventMetadata {
+	return &e.Metadata
+}
+
+func (e *ProductDeletedEvent) GetTopic() string {
+	return TopicCatalogProductEvents
+}
+
+func (e *ProductDeletedEvent) GetSchemaName() string {
+	return SchemaNameProductDeleted
+}
+
+func (e *ProductDeletedEvent) GetSchema() []byte {
+	return ProductDeletedSchema
+}
+
 // ProductUpdatedEvent is the event envelope for ProductUpdated.
 type ProductUpdatedEvent struct {
 	Metadata events.EventMetadata  `avro:"metadata" json:"metadata"`

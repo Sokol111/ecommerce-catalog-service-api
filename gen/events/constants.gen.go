@@ -6,6 +6,7 @@ package events
 const (
 	EventTypeAttributeUpdated = "AttributeUpdatedEvent"
 	EventTypeCategoryUpdated  = "CategoryUpdatedEvent"
+	EventTypeProductDeleted   = "ProductDeletedEvent"
 	EventTypeProductUpdated   = "ProductUpdatedEvent"
 )
 
@@ -20,5 +21,6 @@ const (
 const (
 	SchemaNameAttributeUpdated = "com.ecommerce.events.catalog.AttributeUpdatedEvent"
 	SchemaNameCategoryUpdated  = "com.ecommerce.events.catalog.CategoryUpdatedEvent"
+	SchemaNameProductDeleted   = "com.ecommerce.events.catalog.ProductDeletedEvent"
 	SchemaNameProductUpdated   = "com.ecommerce.events.catalog.ProductUpdatedEvent"
 )

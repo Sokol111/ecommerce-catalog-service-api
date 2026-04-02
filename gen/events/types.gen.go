@@ -73,6 +73,12 @@ package events
 		ModifiedAt time.Time `avro:"modified_at" json:"modified_at"`
 	}
 
+	// Business data for product deletion event.
+	type ProductDeletedPayload struct {
+		// Unique product identifier (UUID).
+		ProductID string `avro:"product_id" json:"product_id"`
+	}
+
 	// Attribute value assigned to a product. Only immutable fields (IDs, slugs) and product-specific values are included. Mutable display data should be joined from master data tables.
 	type AttributeValue struct {
 		// Reference to the attribute definition (UUID).

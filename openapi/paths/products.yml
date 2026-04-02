@@ -151,6 +151,50 @@ paths:
               schema:
                 $ref: "../schemas/common.yml#/components/schemas/Problem"
 
+  /v1/product/delete/{id}:
+    delete:
+      summary: Delete a product by ID
+      operationId: deleteProduct
+      tags:
+        - Products
+      security:
+        - BearerAuth: [products:write]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Product UUID
+      responses:
+        "204":
+          description: Product deleted successfully
+        "401":
+          description: Unauthorized
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "403":
+          description: Forbidden - insufficient permissions
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "404":
+          description: Product not found
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+        "500":
+          description: Internal Server Error
+          content:
+            application/problem+json:
+              schema:
+                $ref: "../schemas/common.yml#/components/schemas/Problem"
+
   /v1/product/list:
     get:
       summary: Get a paginated list of products

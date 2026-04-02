@@ -13,6 +13,10 @@ type CreateProductRes interface {
 	createProductRes()
 }
 
+type DeleteProductRes interface {
+	deleteProductRes()
+}
+
 type GetAttributeByIdRes interface {
 	getAttributeByIdRes()
 }

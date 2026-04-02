@@ -9,6 +9,7 @@ const (
 	CreateAttributeOperation  OperationName = "CreateAttribute"
 	CreateCategoryOperation   OperationName = "CreateCategory"
 	CreateProductOperation    OperationName = "CreateProduct"
+	DeleteProductOperation    OperationName = "DeleteProduct"
 	GetAttributeByIdOperation OperationName = "GetAttributeById"
 	GetAttributeListOperation OperationName = "GetAttributeList"
 	GetCategoryByIdOperation  OperationName = "GetCategoryById"

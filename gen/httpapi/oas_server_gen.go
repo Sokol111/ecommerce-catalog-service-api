@@ -26,6 +26,12 @@ type Handler interface {
 	//
 	// POST /v1/product/create
 	CreateProduct(ctx context.Context, req *CreateProductRequest) (CreateProductRes, error)
+	// DeleteProduct implements deleteProduct operation.
+	//
+	// Delete a product by ID.
+	//
+	// DELETE /v1/product/delete/{id}
+	DeleteProduct(ctx context.Context, params DeleteProductParams) (DeleteProductRes, error)
 	// GetAttributeById implements getAttributeById operation.
 	//
 	// Get an attribute by ID.

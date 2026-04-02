@@ -27,6 +27,9 @@ func registerEvents(registry events.EventRegistry) {
 	registry.Register(SchemaNameCategoryUpdated, func() events.Event {
 		return &CategoryUpdatedEvent{}
 	})
+	registry.Register(SchemaNameProductDeleted, func() events.Event {
+		return &ProductDeletedEvent{}
+	})
 	registry.Register(SchemaNameProductUpdated, func() events.Event {
 		return &ProductUpdatedEvent{}
 	})

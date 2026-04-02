@@ -44,6 +44,9 @@ var operationRolesBearerAuth = map[string][]string{
 	CreateProductOperation: []string{
 		"products:write",
 	},
+	DeleteProductOperation: []string{
+		"products:write",
+	},
 	GetAttributeByIdOperation: []string{
 		"attributes:read",
 	},

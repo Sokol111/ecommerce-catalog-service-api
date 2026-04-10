@@ -9,7 +9,7 @@ This service combines:
 - **Categories** - Product categories with attribute assignments
 - **Products** - Products with attribute values
 
- * OpenAPI spec version: 1.1.6
+ * OpenAPI spec version: 1.1.7
  */
 import type {
   AttributeListResponse,

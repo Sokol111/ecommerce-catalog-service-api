@@ -6,8 +6,10 @@ import (
 	"context"
 	"net/http"
 
+	"github.com/knadh/koanf/v2"
 	"go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/trace"
+	"go.uber.org/fx"
 
 	httpclient "github.com/Sokol111/ecommerce-commons/pkg/http/client"
 	"github.com/Sokol111/ecommerce-commons/pkg/security/token"
@@ -28,19 +30,37 @@ func (s *TokenSecuritySource) BearerAuth(_ context.Context, _ OperationName) (Be
 	return BearerAuth{Token: s.token}, nil
 }
 
-// ProvideClient creates a configured API client with all dependencies for fx DI.
-func ProvideClient(
-	httpClient *http.Client,
-	cfg httpclient.Config,
-	tokenCfg token.Config,
-	tracerProvider trace.TracerProvider,
-	meterProvider metric.MeterProvider,
-) (*Client, error) {
-	return NewClient(
-		cfg.BaseURL,
-		NewTokenSecuritySource(tokenCfg.ServiceToken),
-		WithClient(httpClient),
-		WithTracerProvider(tracerProvider),
-		WithMeterProvider(meterProvider),
+// NewClientModule provides the generated API client for fx DI.
+func NewClientModule(configPath string) fx.Option {
+	return fx.Module(configPath,
+		fx.Provide(
+			fx.Private,
+			func(k *koanf.Koanf) (httpclient.Config, error) {
+				return httpclient.LoadConfig(k, configPath)
+			},
+		),
+		fx.Provide(
+			fx.Private,
+			func(cfg httpclient.Config) (*http.Client, error) {
+				return httpclient.New(cfg)
+			},
+		),
+		fx.Provide(
+			func(
+				httpClient *http.Client,
+				cfg httpclient.Config,
+				tokenCfg token.Config,
+				tracerProvider trace.TracerProvider,
+				meterProvider metric.MeterProvider,
+			) (Invoker, error) {
+				return NewClient(
+					cfg.BaseURL,
+					NewTokenSecuritySource(tokenCfg.ServiceToken),
+					WithClient(httpClient),
+					WithTracerProvider(tracerProvider),
+					WithMeterProvider(meterProvider),
+				)
+			},
+		),
 	)
 }

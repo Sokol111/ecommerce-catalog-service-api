@@ -15,19 +15,23 @@ import (
 	"github.com/Sokol111/ecommerce-commons/pkg/security/token"
 )
 
-// TokenSecuritySource implements SecuritySource for service-to-service authentication.
+// TokenSecuritySource implements SecuritySource using a token.Provider.
 type TokenSecuritySource struct {
-	token string
+	provider token.Provider
 }
 
-// NewTokenSecuritySource creates a SecuritySource that uses a static token.
-func NewTokenSecuritySource(token string) *TokenSecuritySource {
-	return &TokenSecuritySource{token: token}
+// NewTokenSecuritySource creates a SecuritySource that delegates to a token.Provider.
+func NewTokenSecuritySource(provider token.Provider) *TokenSecuritySource {
+	return &TokenSecuritySource{provider: provider}
 }
 
 // BearerAuth returns the bearer token for authentication.
-func (s *TokenSecuritySource) BearerAuth(_ context.Context, _ OperationName) (BearerAuth, error) {
-	return BearerAuth{Token: s.token}, nil
+func (s *TokenSecuritySource) BearerAuth(ctx context.Context, _ OperationName) (BearerAuth, error) {
+	t, err := s.provider.Token(ctx)
+	if err != nil {
+		return BearerAuth{}, err
+	}
+	return BearerAuth{Token: t}, nil
 }
 
 // NewClientModule provides the generated API client for fx DI.
@@ -49,13 +53,13 @@ func NewClientModule(configPath string) fx.Option {
 			func(
 				httpClient *http.Client,
 				cfg httpclient.Config,
-				tokenCfg token.Config,
+				tokenProvider token.Provider,
 				tracerProvider trace.TracerProvider,
 				meterProvider metric.MeterProvider,
 			) (Invoker, error) {
 				return NewClient(
 					cfg.BaseURL,
-					NewTokenSecuritySource(tokenCfg.ServiceToken),
+					NewTokenSecuritySource(tokenProvider),
 					WithClient(httpClient),
 					WithTracerProvider(tracerProvider),
 					WithMeterProvider(meterProvider),

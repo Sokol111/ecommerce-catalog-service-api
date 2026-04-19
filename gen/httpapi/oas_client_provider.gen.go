@@ -10,28 +10,28 @@ import (
 	"go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/fx"
+	"golang.org/x/oauth2"
 
 	httpclient "github.com/Sokol111/ecommerce-commons/pkg/http/client"
-	"github.com/Sokol111/ecommerce-commons/pkg/security/token"
 )
 
-// TokenSecuritySource implements SecuritySource using a token.Provider.
+// TokenSecuritySource implements SecuritySource using an oauth2.TokenSource.
 type TokenSecuritySource struct {
-	provider token.Provider
+	source oauth2.TokenSource
 }
 
-// NewTokenSecuritySource creates a SecuritySource that delegates to a token.Provider.
-func NewTokenSecuritySource(provider token.Provider) *TokenSecuritySource {
-	return &TokenSecuritySource{provider: provider}
+// NewTokenSecuritySource creates a SecuritySource that delegates to an oauth2.TokenSource.
+func NewTokenSecuritySource(source oauth2.TokenSource) *TokenSecuritySource {
+	return &TokenSecuritySource{source: source}
 }
 
 // BearerAuth returns the bearer token for authentication.
 func (s *TokenSecuritySource) BearerAuth(ctx context.Context, _ OperationName) (BearerAuth, error) {
-	t, err := s.provider.Token(ctx)
+	t, err := s.source.Token()
 	if err != nil {
 		return BearerAuth{}, err
 	}
-	return BearerAuth{Token: t}, nil
+	return BearerAuth{Token: t.AccessToken}, nil
 }
 
 // NewClientModule provides the generated API client for fx DI.
@@ -53,13 +53,13 @@ func NewClientModule(configPath string) fx.Option {
 			func(
 				httpClient *http.Client,
 				cfg httpclient.Config,
-				tokenProvider token.Provider,
+				tokenSource oauth2.TokenSource,
 				tracerProvider trace.TracerProvider,
 				meterProvider metric.MeterProvider,
 			) (Invoker, error) {
 				return NewClient(
 					cfg.BaseURL,
-					NewTokenSecuritySource(tokenProvider),
+					NewTokenSecuritySource(tokenSource),
 					WithClient(httpClient),
 					WithTracerProvider(tracerProvider),
 					WithMeterProvider(meterProvider),

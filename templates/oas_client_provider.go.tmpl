@@ -4,9 +4,7 @@ package httpapi
 
 import (
 	"context"
-	"net/http"
 
-	"github.com/knadh/koanf/v2"
 	"go.opentelemetry.io/otel/metric"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/fx"
@@ -14,6 +12,8 @@ import (
 
 	httpclient "github.com/Sokol111/ecommerce-commons/pkg/http/client"
 )
+
+const clientName = "catalog-service"
 
 // TokenSecuritySource implements SecuritySource using an oauth2.TokenSource.
 type TokenSecuritySource struct {
@@ -35,28 +35,23 @@ func (s *TokenSecuritySource) BearerAuth(ctx context.Context, _ OperationName) (
 }
 
 // NewClientModule provides the generated API client for fx DI.
-func NewClientModule(configPath string) fx.Option {
-	return fx.Module(configPath,
-		fx.Provide(
-			fx.Private,
-			func(k *koanf.Koanf) (httpclient.Config, error) {
-				return httpclient.LoadConfig(k, configPath)
-			},
-		),
-		fx.Provide(
-			fx.Private,
-			func(cfg httpclient.Config) (*http.Client, error) {
-				return httpclient.New(cfg)
-			},
-		),
+func NewClientModule() fx.Option {
+	return fx.Module(clientName+"-client",
 		fx.Provide(
 			func(
-				httpClient *http.Client,
-				cfg httpclient.Config,
+				registry *httpclient.Registry,
 				tokenSource oauth2.TokenSource,
 				tracerProvider trace.TracerProvider,
 				meterProvider metric.MeterProvider,
 			) (Invoker, error) {
+				httpClient, err := registry.Client(clientName)
+				if err != nil {
+					return nil, err
+				}
+				cfg, err := registry.Config(clientName)
+				if err != nil {
+					return nil, err
+				}
 				return NewClient(
 					cfg.BaseURL,
 					NewTokenSecuritySource(tokenSource),

@@ -3,11 +3,10 @@ module github.com/Sokol111/ecommerce-catalog-service-api
 go 1.26.3
 
 require (
-	github.com/Sokol111/ecommerce-commons v0.7.9
+	github.com/Sokol111/ecommerce-commons v0.8.1
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.2.0
 	github.com/google/uuid v1.6.0
-	github.com/knadh/koanf/v2 v2.3.4
 	github.com/ogen-go/ogen v1.20.3
 	go.opentelemetry.io/otel v1.43.0
 	go.opentelemetry.io/otel/metric v1.43.0
@@ -37,6 +36,7 @@ require (
 	github.com/knadh/koanf/parsers/yaml v1.1.0 // indirect
 	github.com/knadh/koanf/providers/env/v2 v2.0.0 // indirect
 	github.com/knadh/koanf/providers/file v1.2.1 // indirect
+	github.com/knadh/koanf/v2 v2.3.4 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.22 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect

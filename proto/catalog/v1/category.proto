@@ -1,0 +1,102 @@
+syntax = "proto3";
+
+package catalog.v1;
+
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/connect/catalog/v1;catalogv1";
+
+import "google/protobuf/timestamp.proto";
+
+// ==================== ENUMS ====================
+
+enum CategoryAttributeRole {
+  CATEGORY_ATTRIBUTE_ROLE_UNSPECIFIED = 0;
+  CATEGORY_ATTRIBUTE_ROLE_VARIANT = 1;
+  CATEGORY_ATTRIBUTE_ROLE_SPECIFICATION = 2;
+}
+
+// ==================== ENTITIES ====================
+
+message CategoryAttribute {
+  string attribute_id = 1;
+  CategoryAttributeRole role = 2;
+  int32 sort_order = 3;
+  bool filterable = 4;
+  bool searchable = 5;
+}
+
+message Category {
+  string id = 1;
+  int32 version = 2;
+  string name = 3;
+  bool enabled = 4;
+  repeated CategoryAttribute attributes = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp modified_at = 7;
+}
+
+// ==================== REQUESTS ====================
+
+message CategoryAttributeInput {
+  string attribute_id = 1;
+  CategoryAttributeRole role = 2;
+  optional int32 sort_order = 3;
+  bool filterable = 4;
+  bool searchable = 5;
+}
+
+message CreateCategoryRequest {
+  optional string id = 1;
+  string name = 2;
+  bool enabled = 3;
+  repeated CategoryAttributeInput attributes = 4;
+}
+
+message UpdateCategoryRequest {
+  string id = 1;
+  string name = 2;
+  bool enabled = 3;
+  int32 version = 4;
+  repeated CategoryAttributeInput attributes = 5;
+}
+
+message GetCategoryByIdRequest {
+  string id = 1;
+}
+
+message GetCategoryListRequest {
+  int32 page = 1;
+  int32 size = 2;
+  optional bool enabled = 3;
+  optional string sort = 4;
+  optional string order = 5;
+}
+
+// ==================== RESPONSES ====================
+
+message CreateCategoryResponse {
+  Category category = 1;
+}
+
+message UpdateCategoryResponse {
+  Category category = 1;
+}
+
+message GetCategoryByIdResponse {
+  Category category = 1;
+}
+
+message GetCategoryListResponse {
+  repeated Category items = 1;
+  int32 page = 2;
+  int32 size = 3;
+  int64 total = 4;
+}
+
+// ==================== SERVICE ====================
+
+service CategoryService {
+  rpc CreateCategory(CreateCategoryRequest) returns (CreateCategoryResponse);
+  rpc UpdateCategory(UpdateCategoryRequest) returns (UpdateCategoryResponse);
+  rpc GetCategoryById(GetCategoryByIdRequest) returns (GetCategoryByIdResponse);
+  rpc GetCategoryList(GetCategoryListRequest) returns (GetCategoryListResponse);
+}

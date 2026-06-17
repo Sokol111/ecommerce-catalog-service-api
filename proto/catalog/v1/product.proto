@@ -1,0 +1,128 @@
+syntax = "proto3";
+
+package catalog.v1;
+
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/connect/catalog/v1;catalogv1";
+
+import "google/protobuf/timestamp.proto";
+
+// ==================== ENTITIES ====================
+
+// StringList is a wrapper to allow repeated string inside a oneof.
+message StringList {
+  repeated string values = 1;
+}
+
+message AttributeValue {
+  string attribute_id = 1;
+  oneof value {
+    string option_slug_value = 2;
+    StringList option_slug_values = 3;
+    double numeric_value = 4;
+    string text_value = 5;
+    bool boolean_value = 6;
+  }
+}
+
+message Product {
+  string id = 1;
+  int32 version = 2;
+  string name = 3;
+  optional string description = 4;
+  double price = 5;
+  int32 quantity = 6;
+  optional string image_id = 7;
+  optional string category_id = 8;
+  bool enabled = 9;
+  repeated AttributeValue attributes = 10;
+  google.protobuf.Timestamp created_at = 11;
+  google.protobuf.Timestamp modified_at = 12;
+}
+
+// ==================== REQUESTS ====================
+
+message AttributeValueInput {
+  string attribute_id = 1;
+  oneof value {
+    string option_slug_value = 2;
+    StringList option_slug_values = 3;
+    double numeric_value = 4;
+    string text_value = 5;
+    bool boolean_value = 6;
+  }
+}
+
+message CreateProductRequest {
+  optional string id = 1;
+  string name = 2;
+  optional string description = 3;
+  double price = 4;
+  int32 quantity = 5;
+  optional string image_id = 6;
+  optional string category_id = 7;
+  bool enabled = 8;
+  repeated AttributeValueInput attributes = 9;
+}
+
+message UpdateProductRequest {
+  string id = 1;
+  string name = 2;
+  optional string description = 3;
+  double price = 4;
+  int32 quantity = 5;
+  optional string image_id = 6;
+  optional string category_id = 7;
+  bool enabled = 8;
+  int32 version = 9;
+  repeated AttributeValueInput attributes = 10;
+}
+
+message GetProductByIdRequest {
+  string id = 1;
+}
+
+message DeleteProductRequest {
+  string id = 1;
+}
+
+message GetProductListRequest {
+  int32 page = 1;
+  int32 size = 2;
+  optional bool enabled = 3;
+  optional string category_id = 4;
+  optional string sort = 5;
+  optional string order = 6;
+}
+
+// ==================== RESPONSES ====================
+
+message CreateProductResponse {
+  Product product = 1;
+}
+
+message UpdateProductResponse {
+  Product product = 1;
+}
+
+message GetProductByIdResponse {
+  Product product = 1;
+}
+
+message DeleteProductResponse {}
+
+message GetProductListResponse {
+  repeated Product items = 1;
+  int32 page = 2;
+  int32 size = 3;
+  int64 total = 4;
+}
+
+// ==================== SERVICE ====================
+
+service ProductService {
+  rpc CreateProduct(CreateProductRequest) returns (CreateProductResponse);
+  rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
+  rpc GetProductById(GetProductByIdRequest) returns (GetProductByIdResponse);
+  rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
+  rpc GetProductList(GetProductListRequest) returns (GetProductListResponse);
+}

@@ -1,0 +1,111 @@
+syntax = "proto3";
+
+package catalog.v1;
+
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/connect/catalog/v1;catalogv1";
+
+import "google/protobuf/timestamp.proto";
+
+// ==================== ENUMS ====================
+
+enum AttributeType {
+  ATTRIBUTE_TYPE_UNSPECIFIED = 0;
+  ATTRIBUTE_TYPE_SINGLE = 1;
+  ATTRIBUTE_TYPE_MULTIPLE = 2;
+  ATTRIBUTE_TYPE_RANGE = 3;
+  ATTRIBUTE_TYPE_BOOLEAN = 4;
+  ATTRIBUTE_TYPE_TEXT = 5;
+}
+
+// ==================== ENTITIES ====================
+
+message AttributeOption {
+  string name = 1;
+  string slug = 2;
+  optional string color_code = 3;
+  int32 sort_order = 4;
+}
+
+message Attribute {
+  string id = 1;
+  int32 version = 2;
+  string name = 3;
+  string slug = 4;
+  AttributeType type = 5;
+  optional string unit = 6;
+  bool enabled = 7;
+  repeated AttributeOption options = 8;
+  google.protobuf.Timestamp created_at = 9;
+  google.protobuf.Timestamp modified_at = 10;
+}
+
+// ==================== REQUESTS ====================
+
+message AttributeOptionInput {
+  string name = 1;
+  string slug = 2;
+  optional string color_code = 3;
+  optional int32 sort_order = 4;
+}
+
+message CreateAttributeRequest {
+  optional string id = 1;
+  string name = 2;
+  string slug = 3;
+  AttributeType type = 4;
+  optional string unit = 5;
+  bool enabled = 6;
+  repeated AttributeOptionInput options = 7;
+}
+
+message UpdateAttributeRequest {
+  string id = 1;
+  string name = 2;
+  optional string unit = 3;
+  bool enabled = 4;
+  int32 version = 5;
+  repeated AttributeOptionInput options = 6;
+}
+
+message GetAttributeByIdRequest {
+  string id = 1;
+}
+
+message GetAttributeListRequest {
+  int32 page = 1;
+  int32 size = 2;
+  optional bool enabled = 3;
+  optional AttributeType type = 4;
+  optional string sort = 5;
+  optional string order = 6;
+}
+
+// ==================== RESPONSES ====================
+
+message CreateAttributeResponse {
+  Attribute attribute = 1;
+}
+
+message UpdateAttributeResponse {
+  Attribute attribute = 1;
+}
+
+message GetAttributeByIdResponse {
+  Attribute attribute = 1;
+}
+
+message GetAttributeListResponse {
+  repeated Attribute items = 1;
+  int32 page = 2;
+  int32 size = 3;
+  int64 total = 4;
+}
+
+// ==================== SERVICE ====================
+
+service AttributeService {
+  rpc CreateAttribute(CreateAttributeRequest) returns (CreateAttributeResponse);
+  rpc UpdateAttribute(UpdateAttributeRequest) returns (UpdateAttributeResponse);
+  rpc GetAttributeById(GetAttributeByIdRequest) returns (GetAttributeByIdResponse);
+  rpc GetAttributeList(GetAttributeListRequest) returns (GetAttributeListResponse);
+}

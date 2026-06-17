@@ -3,7 +3,7 @@ module github.com/Sokol111/ecommerce-catalog-service-api
 go 1.26.4
 
 require (
-	github.com/Sokol111/ecommerce-commons v0.8.3
+	github.com/Sokol111/ecommerce-commons v0.8.4
 	go.uber.org/fx v1.24.0
 )
 

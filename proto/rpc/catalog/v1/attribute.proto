@@ -28,7 +28,7 @@ message AttributeOption {
 
 message Attribute {
   string id = 1;
-  int32 version = 2;
+  int64 version = 2;
   string name = 3;
   string slug = 4;
   AttributeType type = 5;
@@ -63,7 +63,7 @@ message UpdateAttributeRequest {
   string name = 2;
   optional string unit = 3;
   bool enabled = 4;
-  int32 version = 5;
+  int64 version = 5;
   repeated AttributeOptionInput options = 6;
 }
 

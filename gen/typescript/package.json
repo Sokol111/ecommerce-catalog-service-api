@@ -1,7 +1,7 @@
 {
   "name": "@sokol111/ecommerce-catalog-service-api",
   "description": "Generated TypeScript Connect client from proto for ecommerce-catalog-service-api",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

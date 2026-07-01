@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+package catalog.v1;
+
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/events/catalog/v1;eventsv1";
+
+import "google/protobuf/timestamp.proto";
+
+// ==================== ENUMS ====================
+
+enum AttributeType {
+  ATTRIBUTE_TYPE_UNSPECIFIED = 0;
+  ATTRIBUTE_TYPE_SINGLE = 1;
+  ATTRIBUTE_TYPE_MULTIPLE = 2;
+  ATTRIBUTE_TYPE_RANGE = 3;
+  ATTRIBUTE_TYPE_BOOLEAN = 4;
+  ATTRIBUTE_TYPE_TEXT = 5;
+}
+
+// ==================== KAFKA EVENTS ====================
+
+message AttributeOption {
+  string slug = 1;
+  string name = 2;
+  optional string color_code = 3;
+  int32 sort_order = 4;
+}
+
+// Master data update for an attribute.
+// Query services should update their local attributes table with this data.
+// Use version for conflict resolution when events arrive out of order.
+message AttributeUpdatedPayload {
+  string attribute_id = 1;
+  string slug = 2;
+  string name = 3;
+  AttributeType type = 4;
+  optional string unit = 5;
+  bool enabled = 6;
+  int32 version = 7;
+  google.protobuf.Timestamp modified_at = 8;
+  repeated AttributeOption options = 9;
+}

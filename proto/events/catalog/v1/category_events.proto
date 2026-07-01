@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package catalog.v1;
+
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/events/catalog/v1;eventsv1";
+
+import "google/protobuf/timestamp.proto";
+
+// ==================== ENUMS ====================
+
+enum CategoryAttributeRole {
+  CATEGORY_ATTRIBUTE_ROLE_UNSPECIFIED = 0;
+  CATEGORY_ATTRIBUTE_ROLE_VARIANT = 1;
+  CATEGORY_ATTRIBUTE_ROLE_SPECIFICATION = 2;
+}
+
+// ==================== KAFKA EVENTS ====================
+
+// Category attribute assignment with category-specific settings.
+// Only immutable references (IDs, slugs) and category-specific configuration are included.
+// Mutable attribute data should be fetched from master data tables via AttributeUpdated events.
+message CategoryAttribute {
+  string attribute_id = 1;
+  string attribute_slug = 2;
+  CategoryAttributeRole role = 3;
+  int32 sort_order = 4;
+  bool filterable = 5;
+  bool searchable = 6;
+}
+
+// Business data for category update event.
+// Mutable attribute data should be fetched from master data tables via AttributeUpdated events.
+message CategoryUpdatedPayload {
+  string category_id = 1;
+  string name = 2;
+  bool enabled = 3;
+  repeated CategoryAttribute attributes = 4;
+  int32 version = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp modified_at = 7;
+}

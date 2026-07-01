@@ -1,15 +1,16 @@
 version: v2
 
 modules:
-  - path: proto
+  - path: proto/rpc
     name: buf.build/sokol111/catalog-api
+  - path: proto/events
 
 deps:
-  - buf.build/googleapis/googleapis
+  - buf.build/bufbuild/protovalidate
 
 lint:
   use:
-    - DEFAULT
+    - STANDARD
 
 breaking:
   use:

@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+package catalog.v1;
+
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/events/catalog/v1;eventsv1";
+
+import "google/protobuf/timestamp.proto";
+
+// ==================== KAFKA EVENTS ====================
+
+// StringList is a wrapper to allow repeated string inside a oneof.
+message StringList {
+  repeated string values = 1;
+}
+
+// Attribute value assigned to a product.
+// Only immutable fields (IDs, slugs) and product-specific values are included.
+// Mutable display data should be joined from master data tables via AttributeUpdated events.
+message AttributeValue {
+  string attribute_id = 1;
+  string attribute_slug = 2;
+  oneof value {
+    string option_slug_value = 3;
+    StringList option_slug_values = 4;
+    double numeric_value = 5;
+    string text_value = 6;
+    bool boolean_value = 7;
+  }
+}
+
+// Business data for product update event.
+// Contains only immutable references — mutable data (attribute names, option names, etc.)
+// should be fetched from master data tables via AttributeUpdated events.
+message ProductUpdatedPayload {
+  string product_id = 1;
+  string name = 2;
+  optional string description = 3;
+  double price = 4;
+  int32 quantity = 5;
+  optional string image_id = 6;
+  optional string category_id = 7;
+  bool enabled = 8;
+  int32 version = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp modified_at = 11;
+  repeated AttributeValue attributes = 12;
+}
+
+// Business data for product deletion event.
+message ProductDeletedPayload {
+  string product_id = 1;
+}

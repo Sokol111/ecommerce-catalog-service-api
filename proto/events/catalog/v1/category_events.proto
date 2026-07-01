@@ -35,7 +35,7 @@ message CategoryUpdatedEvent {
   string name = 2;
   bool enabled = 3;
   repeated CategoryAttribute attributes = 4;
-  int32 version = 5;
+  int64 version = 5;
   google.protobuf.Timestamp created_at = 6;
   google.protobuf.Timestamp modified_at = 7;
 }

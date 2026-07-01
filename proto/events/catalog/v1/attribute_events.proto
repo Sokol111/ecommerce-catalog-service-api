@@ -36,7 +36,7 @@ message AttributeUpdatedEvent {
   AttributeType type = 4;
   optional string unit = 5;
   bool enabled = 6;
-  int32 version = 7;
+  int64 version = 7;
   google.protobuf.Timestamp modified_at = 8;
   repeated AttributeOption options = 9;
 }

@@ -40,7 +40,7 @@ message ProductUpdatedEvent {
   optional string image_id = 6;
   optional string category_id = 7;
   bool enabled = 8;
-  int32 version = 9;
+  int64 version = 9;
   google.protobuf.Timestamp created_at = 10;
   google.protobuf.Timestamp modified_at = 11;
   repeated AttributeValue attributes = 12;

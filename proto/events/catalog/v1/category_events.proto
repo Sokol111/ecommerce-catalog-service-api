@@ -30,7 +30,7 @@ message CategoryAttribute {
 
 // Business data for category update event.
 // Mutable attribute data should be fetched from master data tables via AttributeUpdated events.
-message CategoryUpdatedPayload {
+message CategoryUpdatedEvent {
   string category_id = 1;
   string name = 2;
   bool enabled = 3;

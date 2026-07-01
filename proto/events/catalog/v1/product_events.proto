@@ -31,7 +31,7 @@ message AttributeValue {
 // Business data for product update event.
 // Contains only immutable references — mutable data (attribute names, option names, etc.)
 // should be fetched from master data tables via AttributeUpdated events.
-message ProductUpdatedPayload {
+message ProductUpdatedEvent {
   string product_id = 1;
   string name = 2;
   optional string description = 3;
@@ -47,6 +47,6 @@ message ProductUpdatedPayload {
 }
 
 // Business data for product deletion event.
-message ProductDeletedPayload {
+message ProductDeletedEvent {
   string product_id = 1;
 }

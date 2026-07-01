@@ -29,7 +29,7 @@ message AttributeOption {
 // Master data update for an attribute.
 // Query services should update their local attributes table with this data.
 // Use version for conflict resolution when events arrive out of order.
-message AttributeUpdatedPayload {
+message AttributeUpdatedEvent {
   string attribute_id = 1;
   string slug = 2;
   string name = 3;

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package catalog.v1;
+package catalog.events.v1;
 
 option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/events/catalog/v1;eventsv1";
 

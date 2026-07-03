@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package catalog.events.v1;
 
-option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/events/catalog/v1;eventsv1";
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/events/catalog/events/v1;eventsv1";
 
 import "google/protobuf/timestamp.proto";
 

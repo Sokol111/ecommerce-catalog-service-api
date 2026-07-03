@@ -1,7 +1,7 @@
 package events
 
 import (
-	eventsv1 "github.com/Sokol111/ecommerce-catalog-service-api/gen/catalog/events/v1"
+	eventsv1 "github.com/Sokol111/ecommerce-catalog-service-api/gen/go/catalog/events/v1"
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
 )

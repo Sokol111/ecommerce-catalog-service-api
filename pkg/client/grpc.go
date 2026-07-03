@@ -4,7 +4,7 @@ import (
 	"github.com/knadh/koanf/v2"
 	"go.uber.org/fx"
 
-	catalogv1 "github.com/Sokol111/ecommerce-catalog-service-api/gen/connect/catalog/v1"
+	catalogv1 "github.com/Sokol111/ecommerce-catalog-service-api/gen/go/catalog/v1"
 	grpcclient "github.com/Sokol111/ecommerce-commons/pkg/grpc/client"
 )
 

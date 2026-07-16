@@ -1,0 +1,37 @@
+buf.lock
+  s_b0011afa5ead3a::t_bfa5c15a063c05 1-6
+gen/go/catalog/v1/attribute.pb.go
+  s_b0011afa5ead3a::t_2e1ca1b4388fa8 10,845-850,855-940
+gen/go/catalog/v1/category.pb.go
+  s_b0011afa5ead3a::t_e95808bbba97ee 10,788-844,851-886,889-916,918-922,924-941
+gen/go/catalog/v1/product.pb.go
+  s_b0011afa5ead3a::t_53f468828ef8c7 10,1116-1126,1143-1225,1228-1276,1281-1329
+gen/typescript/buf/validate/validate_pb.ts
+  s_b0011afa5ead3a::t_e9df33ec06fa70 1-5034
+gen/typescript/catalog/v1/attribute_pb.ts
+  s_b0011afa5ead3a::t_d4c237034b6f4e 7,16
+gen/typescript/catalog/v1/category_pb.ts
+  s_b0011afa5ead3a::t_61a94e24754d12 7,16
+gen/typescript/catalog/v1/product_pb.ts
+  s_b0011afa5ead3a::t_68f6f1262ecdbe 7,16
+gen/typescript/index.ts
+  s_b0011afa5ead3a::t_27b18307345ac3 1
+gen/typescript/package.json
+  s_b0011afa5ead3a::t_1f78bb6fb02c4a 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.11",
+  "base_commit_sha": "a98b6c30901812b98f4b00aa5173f07510fcdb53",
+  "prompts": {},
+  "sessions": {
+    "s_b0011afa5ead3a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_0943e6c06ffe5G0EwTRgXpqXw6",
+        "model": "gpt-5.6-terra"
+      },
+      "human_author": "Sokol111 <igorsokol111@gmail.com>"
+    }
+  }
+}

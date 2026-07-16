@@ -2,15 +2,25 @@ syntax = "proto3";
 
 package catalog.v1;
 
-option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/go/catalog/v1;catalogv1";
-
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/go/catalog/v1;catalogv1";
 
 // ==================== ENTITIES ====================
 
 // StringList is a wrapper to allow repeated string inside a oneof.
 message StringList {
-  repeated string values = 1;
+  repeated string values = 1 [(buf.validate.field).repeated = {
+    min_items: 1
+    items: {
+      string: {
+        min_len: 1
+        max_len: 50
+        pattern: "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+      }
+    }
+  }];
 }
 
 message AttributeValue {
@@ -42,7 +52,7 @@ message Product {
 // ==================== REQUESTS ====================
 
 message AttributeValueInput {
-  string attribute_id = 1;
+  string attribute_id = 1 [(buf.validate.field).string.uuid = true];
   oneof value {
     string option_slug_value = 2;
     StringList option_slug_values = 3;
@@ -53,43 +63,52 @@ message AttributeValueInput {
 }
 
 message CreateProductRequest {
-  optional string id = 1;
-  string name = 2;
+  optional string id = 1 [(buf.validate.field).string.uuid = true];
+  string name = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 255
+  }];
   optional string description = 3;
-  double price = 4;
-  int32 quantity = 5;
-  optional string image_id = 6;
-  optional string category_id = 7;
+  double price = 4 [(buf.validate.field).double.gte = 0];
+  int32 quantity = 5 [(buf.validate.field).int32.gte = 0];
+  optional string image_id = 6 [(buf.validate.field).string.uuid = true];
+  optional string category_id = 7 [(buf.validate.field).string.uuid = true];
   bool enabled = 8;
   repeated AttributeValueInput attributes = 9;
 }
 
 message UpdateProductRequest {
-  string id = 1;
-  string name = 2;
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  string name = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 255
+  }];
   optional string description = 3;
-  double price = 4;
-  int32 quantity = 5;
-  optional string image_id = 6;
-  optional string category_id = 7;
+  double price = 4 [(buf.validate.field).double.gte = 0];
+  int32 quantity = 5 [(buf.validate.field).int32.gte = 0];
+  optional string image_id = 6 [(buf.validate.field).string.uuid = true];
+  optional string category_id = 7 [(buf.validate.field).string.uuid = true];
   bool enabled = 8;
-  int64 version = 9;
+  int64 version = 9 [(buf.validate.field).int64.gte = 0];
   repeated AttributeValueInput attributes = 10;
 }
 
 message GetProductByIdRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message DeleteProductRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message GetProductListRequest {
-  int32 page = 1;
-  int32 size = 2;
+  int32 page = 1 [(buf.validate.field).int32.gte = 1];
+  int32 size = 2 [(buf.validate.field).int32 = {
+    gte: 1
+    lte: 100
+  }];
   optional bool enabled = 3;
-  optional string category_id = 4;
+  optional string category_id = 4 [(buf.validate.field).string.uuid = true];
   optional string sort = 5;
   optional string order = 6;
 }

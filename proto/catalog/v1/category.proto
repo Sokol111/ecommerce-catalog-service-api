@@ -2,9 +2,10 @@ syntax = "proto3";
 
 package catalog.v1;
 
-option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/go/catalog/v1;catalogv1";
-
+import "buf/validate/validate.proto";
 import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/Sokol111/ecommerce-catalog-service-api/gen/go/catalog/v1;catalogv1";
 
 // ==================== ENUMS ====================
 
@@ -37,35 +38,44 @@ message Category {
 // ==================== REQUESTS ====================
 
 message CategoryAttributeInput {
-  string attribute_id = 1;
-  CategoryAttributeRole role = 2;
-  optional int32 sort_order = 3;
+  string attribute_id = 1 [(buf.validate.field).string.uuid = true];
+  CategoryAttributeRole role = 2 [(buf.validate.field).enum.defined_only = true];
+  optional int32 sort_order = 3 [(buf.validate.field).int32.gte = 0];
   bool filterable = 4;
   bool searchable = 5;
 }
 
 message CreateCategoryRequest {
-  optional string id = 1;
-  string name = 2;
+  optional string id = 1 [(buf.validate.field).string.uuid = true];
+  string name = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 255
+  }];
   bool enabled = 3;
   repeated CategoryAttributeInput attributes = 4;
 }
 
 message UpdateCategoryRequest {
-  string id = 1;
-  string name = 2;
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  string name = 2 [(buf.validate.field).string = {
+    min_len: 1
+    max_len: 255
+  }];
   bool enabled = 3;
-  int64 version = 4;
+  int64 version = 4 [(buf.validate.field).int64.gte = 0];
   repeated CategoryAttributeInput attributes = 5;
 }
 
 message GetCategoryByIdRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).string.uuid = true];
 }
 
 message GetCategoryListRequest {
-  int32 page = 1;
-  int32 size = 2;
+  int32 page = 1 [(buf.validate.field).int32.gte = 1];
+  int32 size = 2 [(buf.validate.field).int32 = {
+    gte: 1
+    lte: 100
+  }];
   optional bool enabled = 3;
   optional string sort = 4;
   optional string order = 5;

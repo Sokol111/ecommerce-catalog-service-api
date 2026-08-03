@@ -7,7 +7,7 @@ of truth in a CQRS + event-driven system. It holds no business logic. It contain
 
 - **Protobuf sources** (`proto/`) — the only files you hand-edit.
 - **Generated code** (`gen/go`, `gen/typescript`) — never hand-edit; regenerate instead.
-- **Thin Go helpers** (`pkg/`) that build on the generated code: an `fx` gRPC client module
+- **Thin Go helpers** (`pkg/`) that build on the generated code: an Fx-configured gRPC client
   and a Kafka topic registry.
 
 Consumers: the catalog service (implements the RPC servers, produces the events), the query
@@ -26,7 +26,7 @@ on the next generation and break the release pipeline.
 make generate            # DEFAULT WORKFLOW: lint + generate TS + Go events + Go Connect/gRPC
 make lint                # buf lint only (STANDARD rules)
 make format              # buf format -w
-make connect-breaking    # check proto for breaking changes against .git#branch=main
+make connect-breaking    # check proto for breaking changes against master
 make tidy                # go mod tidy
 make update-proto-deps   # buf dep update (refresh buf.lock)
 make connect-install-tools   # install buf + protoc-gen-{go,connect-go,go-grpc} at pinned versions
@@ -69,10 +69,10 @@ belong in the proto as protovalidate options.
 
 ## The `pkg/` helpers
 
-- `pkg/client/grpc.go` — `client.Module()` returns an `fx.Option` wiring native gRPC clients
+- `pkg/fxconfig/grpc.go` — `fxconfig.NewGrpcClientsModule()` returns an `fx.Option` wiring native gRPC clients
   for all three services (`ProductServiceClient`, `AttributeServiceClient`,
   `CategoryServiceClient`), reading config from koanf key `catalog.grpc`. This is how consumer
-  services get a catalog client — import the module, don't construct clients by hand.
+  services get catalog clients — compose the module, don't construct clients by hand.
 - `pkg/events/topics.go` — maps proto event message full-names to Kafka topic names
   (`catalog.product.events`, `catalog.category.events`, `catalog.attribute.events`) and exposes
   `TopicFor(msg)`. **When you add a new event message, register it in `topicMap`** or `TopicFor`

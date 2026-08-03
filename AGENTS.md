@@ -5,7 +5,7 @@
 This is the **API contract repo** for `ecommerce-catalog-service` — the write side / source
 of truth in a CQRS + event-driven system. It holds no business logic. It contains:
 
-- **Protobuf sources** (`proto/`) — the only files you hand-edit.
+- **Protobuf sources** (`proto/`) — edit these for contract changes.
 - **Generated code** (`gen/go`, `gen/typescript`) — never hand-edit; regenerate instead.
 - **Thin Go helpers** (`pkg/`) that build on the generated code: an Fx-configured gRPC client
   and a Kafka topic registry.
@@ -19,6 +19,9 @@ TS client).
 **Never hand-edit anything under `gen/`.** All Go and TypeScript there is produced by `buf`
 from `proto/`. Edit the `.proto` and run `make generate`. Hand edits are silently overwritten
 on the next generation and break the release pipeline.
+
+`pkg/fxconfig/` and `pkg/events/` are hand-written code. Update the gRPC Fx module when client
+wiring changes, and update `topicMap` when adding an event message.
 
 ## Commands
 
@@ -53,7 +56,8 @@ Two proto trees under `proto/catalog/`, with distinct purposes and package names
   `product.proto`, `category.proto`, `attribute.proto`. Each defines entities, request/response
   messages, and a `service`.
 - `events/v1/` (`package catalog.events.v1`) — **Kafka event schemas** emitted by the catalog
-  service: `*UpdatedEvent` / `*DeletedEvent` per aggregate.
+  service: `ProductUpdatedEvent`, `ProductDeletedEvent`, `CategoryUpdatedEvent`, and
+  `AttributeUpdatedEvent`.
 
 Key modeling decision to preserve when editing events: **events carry only immutable references
 (IDs, slugs) plus product-specific values — not mutable display data** (attribute names, option

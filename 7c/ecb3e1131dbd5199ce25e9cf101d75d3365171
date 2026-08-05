@@ -1,0 +1,19 @@
+proto/catalog/v1/attribute.proto
+  s_71ade8efceed27::t_ca436167da57d5 53,68
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.14",
+  "base_commit_sha": "7cecb3e1131dbd5199ce25e9cf101d75d3365171",
+  "prompts": {},
+  "sessions": {
+    "s_71ade8efceed27": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_02dfb72e0ffe2DSQl0vQNbaXMB",
+        "model": "kimi-k2.7-code"
+      },
+      "human_author": "Sokol111 <igorsokol111@gmail.com>"
+    }
+  }
+}

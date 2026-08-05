@@ -48,7 +48,7 @@ message AttributeOptionInput {
     max_len: 100
   }];
   string slug = 2 [(buf.validate.field).string = {
-    min_len: 3
+    min_len: 1
     max_len: 50
     pattern: "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
   }];
